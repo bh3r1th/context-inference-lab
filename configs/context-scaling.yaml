@@ -15,7 +15,7 @@ server:
   model: Qwen/Qwen2.5-7B-Instruct
   model_revision: a09a35458c702b33eeacc393d103063234e8bc28
   vllm_version: 0.29.0
-  launch_command: "vllm serve Qwen/Qwen2.5-7B-Instruct --revision a09a35458c702b33eeacc393d103063234e8bc28 --host 0.0.0.0 --port 8000 --dtype auto --gpu-memory-utilization 0.90 --max-model-len 72K --rope-scaling '{"rope_type":"yarn","factor":4.0,"original_max_position_embeddings":32768}' --no-enable-prefix-caching"
+  launch_command: "vllm serve Qwen/Qwen2.5-7B-Instruct --revision a09a35458c702b33eeacc393d103063234e8bc28 --host 0.0.0.0 --port 8000 --dtype auto --gpu-memory-utilization 0.90 --max-model-len 72K --hf-overrides '{\"rope_parameters\":{\"rope_type\":\"yarn\",\"factor\":4.0,\"original_max_position_embeddings\":32768,\"rope_theta\":1000000.0}}' --generation-config vllm --no-enable-prefix-caching"
   prefix_caching: false
   timeout_s: 120.0
   max_tokens: 256

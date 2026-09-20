@@ -34,8 +34,16 @@ async def execute(args):
                                             run_output=args.scaling_output / phase / "runs"))
         else:
             for config_path in (args.prefix_cold, args.prefix_warm):
-                runs.append(await run(phase_config(
-                    config_path, phase, args.prefix_output / phase / config_path.stem)))
+                cfg = load_config(config_path)
+                runs.append(
+                    await run(
+                        phase_config(
+                            config_path,
+                            phase,
+                            Path(cfg.output_dir) / phase,
+                        )
+                    )
+                )
     return write_manifest(runs, args.manifest)
 
 

@@ -67,7 +67,7 @@ def generate(source: Path, output: Path):
         raise ValueError("scaling source must contain at least one event")
     for label, target in TARGETS.items():
         target_root = output / label
-        shutil.copytree(template, target_root)
+        shutil.copytree(template, target_root, dirs_exist_ok=True)
         policy = target_root / "documents" / "policy.md"
         text = policy.read_text(encoding="utf-8")
         index = 0

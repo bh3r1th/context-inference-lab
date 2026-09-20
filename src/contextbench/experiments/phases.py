@@ -7,6 +7,10 @@ from contextbench.experiments.config import ExperimentConfig, load_config
 UNCACHED_STRATEGIES = {"full_context", "retrieval", "compiled_context"}
 
 
+def scaling_paths(fixture_root: Path, run_output: Path, label: str) -> tuple[Path, Path]:
+    return fixture_root / label, run_output
+
+
 def phase_config(path: Path, phase: str, output_root: Path | None = None) -> ExperimentConfig:
     if phase not in {"uncached", "cached", "all"}:
         raise ValueError(f"unknown phase: {phase}")

@@ -24,7 +24,8 @@ async def execute(args):
             await run(phase_config(args.enterprise, phase,
                                     Path(args.enterprise_output) / phase))
             await execute_sizes(args.scaling, args.source,
-                                args.scaling_output / phase, ("2k", "8k", "32k"), phase=phase)
+                                args.scaling_output, ("2k", "8k", "32k"), phase=phase,
+                                run_output=args.scaling_output / phase / "runs")
         else:
             await run(phase_config(args.enterprise, phase,
                                     Path(args.enterprise_output) / phase))

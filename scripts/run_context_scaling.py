@@ -8,16 +8,20 @@ import yaml
 
 from contextbench.experiments.config import ExperimentConfig
 from contextbench.experiments.orchestrator import run
+from contextbench.experiments.phases import scaling_paths
 from generate_scaling_workloads import TARGETS, generate
 
 
 async def execute(config_path: Path, source: Path, output: Path, phase="all"):
-    return await execute_sizes(config_path, source, output, TARGETS, phase=phase)
+    return await execute_sizes(config_path, source, output, TARGETS, phase=phase,
+                               run_output=output / "runs")
 
 
-async def execute_sizes(config_path: Path, source: Path, output: Path, sizes, phase="all"):
+async def execute_sizes(config_path: Path, source: Path, fixture_root: Path, sizes,
+                        phase="all", run_output: Path | None = None):
+    run_output = run_output or fixture_root / "runs"
     run_paths = []
-    generate(source, output / "template")
+    generate(source, fixture_root)
     base = yaml.safe_load(config_path.read_text(encoding="utf-8"))
     unknown = set(sizes) - set(TARGETS)
     if unknown:
@@ -25,8 +29,9 @@ async def execute_sizes(config_path: Path, source: Path, output: Path, sizes, ph
     for label in sizes:
         values = copy.deepcopy(base)
         values["experiment_id"] = f"context-scaling-{label}"
-        values["dataset"] = str((output / label).resolve())
-        values["output_dir"] = str((output / "runs").resolve())
+        dataset, output_dir = scaling_paths(fixture_root, run_output, label)
+        values["dataset"] = str(dataset.resolve())
+        values["output_dir"] = str(output_dir.resolve())
         values["phase"] = phase
         run_paths.append(await run(ExperimentConfig.model_validate(values)))
     return run_paths

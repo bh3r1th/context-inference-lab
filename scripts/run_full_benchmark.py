@@ -29,8 +29,9 @@ async def execute(args):
                                            args.enterprise_output / phase)))
         if phase == "uncached":
             runs.extend(await execute_sizes(args.scaling, args.source,
-                                            args.scaling_output / phase,
-                                            ("2k", "8k", "16k", "32k", "64k"), phase=phase))
+                                            args.scaling_output,
+                                            ("2k", "8k", "16k", "32k", "64k"), phase=phase,
+                                            run_output=args.scaling_output / phase / "runs"))
         else:
             for config_path in (args.prefix_cold, args.prefix_warm):
                 runs.append(await run(phase_config(

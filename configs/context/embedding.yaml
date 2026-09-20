@@ -1,0 +1,12 @@
+retrieval:
+  method: embedding
+  top_k: 8
+  chunk_chars: 500
+  overlap_chars: 80
+  embedding_model: sentence-transformers/all-MiniLM-L6-v2
+  embedding_revision: null # Set an immutable model revision for reproducible experiments.
+  embedding_device: cpu
+  embedding_batch_size: 32
+  local_files_only: true # Set false to allow downloading the model on first use.
+tokenizer:
+  method: regex

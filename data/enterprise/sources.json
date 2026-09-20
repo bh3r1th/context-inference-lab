@@ -1,0 +1,259 @@
+[
+  {
+    "document": "policy.md",
+    "fact": "Travel expenses in USD are approved when amount_usd is at or below the applicable limit, otherwise rejected. All amounts are whole dollars. Cite R_BASE and the city row.",
+    "id": "R_BASE",
+    "section": "1. Expense eligibility",
+    "when": {}
+  },
+  {
+    "document": "policy.md",
+    "fact": "FIELD travel uses the lower of the city limit and 150 USD. Cite R_DEPARTMENT as well.",
+    "id": "R_DEPARTMENT",
+    "section": "9. Department budgets",
+    "when": {
+      "department": "FIELD"
+    }
+  },
+  {
+    "document": "controls.md",
+    "fact": "A restricted vendor must be rejected even during an emergency. Retain the applicable limit and cite R_VENDOR and all rules used to establish that limit.",
+    "id": "R_VENDOR",
+    "section": "3. Vendor screening",
+    "when": {
+      "vendor_status": "restricted"
+    }
+  },
+  {
+    "document": "exceptions.md",
+    "fact": "An emergency with an incident_id replaces the city and department limits with 1000 USD. Cite R_EMERGENCY, R_BASE, the city row, and R_DEPARTMENT if FIELD. Vendor controls still apply.",
+    "id": "R_EMERGENCY",
+    "section": "Appendix Q. Incident travel",
+    "when": {
+      "emergency": true
+    }
+  },
+  {
+    "document": "policy.md",
+    "fact": "Before applying any other rule, abstain with null limit and cite only R_ABSTAIN if city has no lookup row, category is not travel, currency is not USD, amount_usd is missing or is not a nonnegative integer, department is not OFFICE or FIELD, vendor_status is not clear or restricted, emergency is missing or not boolean, emergency is true without incident_id, or receipt_amount_usd is present and differs from amount_usd. Missing city, category, currency, department, or vendor_status also requires abstention.",
+    "id": "R_ABSTAIN",
+    "section": "0. Evidence completeness",
+    "when": {}
+  },
+  {
+    "document": "lookup.md",
+    "fact": "Harbor-0000 travel limit is 200 USD.",
+    "id": "L_CITY_0000",
+    "section": "Harbor-0000",
+    "when": {
+      "city": "Harbor-0000"
+    }
+  },
+  {
+    "document": "lookup.md",
+    "fact": "Harbor-0001 travel limit is 350 USD.",
+    "id": "L_CITY_0001",
+    "section": "Harbor-0001",
+    "when": {
+      "city": "Harbor-0001"
+    }
+  },
+  {
+    "document": "lookup.md",
+    "fact": "Harbor-0002 travel limit is 400 USD.",
+    "id": "L_CITY_0002",
+    "section": "Harbor-0002",
+    "when": {
+      "city": "Harbor-0002"
+    }
+  },
+  {
+    "document": "lookup.md",
+    "fact": "Harbor-0003 travel limit is 350 USD.",
+    "id": "L_CITY_0003",
+    "section": "Harbor-0003",
+    "when": {
+      "city": "Harbor-0003"
+    }
+  },
+  {
+    "document": "lookup.md",
+    "fact": "Harbor-0004 travel limit is 250 USD.",
+    "id": "L_CITY_0004",
+    "section": "Harbor-0004",
+    "when": {
+      "city": "Harbor-0004"
+    }
+  },
+  {
+    "document": "lookup.md",
+    "fact": "Harbor-0005 travel limit is 200 USD.",
+    "id": "L_CITY_0005",
+    "section": "Harbor-0005",
+    "when": {
+      "city": "Harbor-0005"
+    }
+  },
+  {
+    "document": "lookup.md",
+    "fact": "Harbor-0006 travel limit is 250 USD.",
+    "id": "L_CITY_0006",
+    "section": "Harbor-0006",
+    "when": {
+      "city": "Harbor-0006"
+    }
+  },
+  {
+    "document": "lookup.md",
+    "fact": "Harbor-0007 travel limit is 300 USD.",
+    "id": "L_CITY_0007",
+    "section": "Harbor-0007",
+    "when": {
+      "city": "Harbor-0007"
+    }
+  },
+  {
+    "document": "lookup.md",
+    "fact": "Harbor-0008 travel limit is 400 USD.",
+    "id": "L_CITY_0008",
+    "section": "Harbor-0008",
+    "when": {
+      "city": "Harbor-0008"
+    }
+  },
+  {
+    "document": "lookup.md",
+    "fact": "Harbor-0009 travel limit is 300 USD.",
+    "id": "L_CITY_0009",
+    "section": "Harbor-0009",
+    "when": {
+      "city": "Harbor-0009"
+    }
+  },
+  {
+    "document": "lookup.md",
+    "fact": "Harbor-0010 travel limit is 300 USD.",
+    "id": "L_CITY_0010",
+    "section": "Harbor-0010",
+    "when": {
+      "city": "Harbor-0010"
+    }
+  },
+  {
+    "document": "lookup.md",
+    "fact": "Harbor-0011 travel limit is 250 USD.",
+    "id": "L_CITY_0011",
+    "section": "Harbor-0011",
+    "when": {
+      "city": "Harbor-0011"
+    }
+  },
+  {
+    "document": "lookup.md",
+    "fact": "Harbor-0012 travel limit is 250 USD.",
+    "id": "L_CITY_0012",
+    "section": "Harbor-0012",
+    "when": {
+      "city": "Harbor-0012"
+    }
+  },
+  {
+    "document": "lookup.md",
+    "fact": "Harbor-0013 travel limit is 400 USD.",
+    "id": "L_CITY_0013",
+    "section": "Harbor-0013",
+    "when": {
+      "city": "Harbor-0013"
+    }
+  },
+  {
+    "document": "lookup.md",
+    "fact": "Harbor-0014 travel limit is 350 USD.",
+    "id": "L_CITY_0014",
+    "section": "Harbor-0014",
+    "when": {
+      "city": "Harbor-0014"
+    }
+  },
+  {
+    "document": "lookup.md",
+    "fact": "Harbor-0015 travel limit is 200 USD.",
+    "id": "L_CITY_0015",
+    "section": "Harbor-0015",
+    "when": {
+      "city": "Harbor-0015"
+    }
+  },
+  {
+    "document": "lookup.md",
+    "fact": "Harbor-0016 travel limit is 400 USD.",
+    "id": "L_CITY_0016",
+    "section": "Harbor-0016",
+    "when": {
+      "city": "Harbor-0016"
+    }
+  },
+  {
+    "document": "lookup.md",
+    "fact": "Harbor-0017 travel limit is 350 USD.",
+    "id": "L_CITY_0017",
+    "section": "Harbor-0017",
+    "when": {
+      "city": "Harbor-0017"
+    }
+  },
+  {
+    "document": "lookup.md",
+    "fact": "Harbor-0018 travel limit is 300 USD.",
+    "id": "L_CITY_0018",
+    "section": "Harbor-0018",
+    "when": {
+      "city": "Harbor-0018"
+    }
+  },
+  {
+    "document": "lookup.md",
+    "fact": "Harbor-0019 travel limit is 350 USD.",
+    "id": "L_CITY_0019",
+    "section": "Harbor-0019",
+    "when": {
+      "city": "Harbor-0019"
+    }
+  },
+  {
+    "document": "lookup.md",
+    "fact": "Harbor-0020 travel limit is 300 USD.",
+    "id": "L_CITY_0020",
+    "section": "Harbor-0020",
+    "when": {
+      "city": "Harbor-0020"
+    }
+  },
+  {
+    "document": "lookup.md",
+    "fact": "Harbor-0021 travel limit is 350 USD.",
+    "id": "L_CITY_0021",
+    "section": "Harbor-0021",
+    "when": {
+      "city": "Harbor-0021"
+    }
+  },
+  {
+    "document": "lookup.md",
+    "fact": "Harbor-0022 travel limit is 400 USD.",
+    "id": "L_CITY_0022",
+    "section": "Harbor-0022",
+    "when": {
+      "city": "Harbor-0022"
+    }
+  },
+  {
+    "document": "lookup.md",
+    "fact": "Harbor-0023 travel limit is 300 USD.",
+    "id": "L_CITY_0023",
+    "section": "Harbor-0023",
+    "when": {
+      "city": "Harbor-0023"
+    }
+  }
+]

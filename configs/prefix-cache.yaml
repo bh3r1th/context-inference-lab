@@ -1,0 +1,40 @@
+experiment_id: prefix-cache
+cache_scenario: cold
+seed: 42
+dataset: ../data/enterprise
+output_dir: ../results/prefix-cache
+strategies: [full_context, prefix_cached_full_context]
+concurrency: [1, 8, 32]
+repetitions: 10
+warmup_requests: 0
+context:
+  retrieval:
+    method: bm25
+    top_k: 8
+    chunk_chars: 1200
+    overlap_chars: 120
+    bm25_k1: 1.5
+    bm25_b: 0.75
+  tokenizer:
+    method: regex
+telemetry_interval_s: 0.5
+local_gpu_metrics: true
+server: &baseline
+  base_url: http://localhost:8000/v1
+  metrics_url: http://localhost:8000/metrics
+  model: Qwen/Qwen2.5-7B-Instruct
+  model_revision: REPLACE_WITH_MODEL_COMMIT
+  vllm_version: REPLACE_WITH_INSTALLED_VERSION
+  launch_command: REPLACE_WITH_EXACT_UNCACHED_SERVER_COMMAND --no-enable-prefix-caching
+  prefix_caching: false
+  timeout_s: 120.0
+  max_tokens: 256
+  structured_output: true
+  structured_output_mode: vllm
+strategy_servers:
+  prefix_cached_full_context:
+    <<: *baseline
+    base_url: http://localhost:8001/v1
+    metrics_url: http://localhost:8001/metrics
+    prefix_caching: true
+    launch_command: REPLACE_WITH_EXACT_CACHE_ENABLED_SERVER_COMMAND --enable-prefix-caching

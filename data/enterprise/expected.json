@@ -1,0 +1,1322 @@
+{
+  "EV-000000": {
+    "case": "normal",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0017"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0017"
+      ],
+      "decision": "approve",
+      "event_id": "EV-000000",
+      "limit_usd": 350,
+      "reason": "Within the city limit."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0017"
+    ]
+  },
+  "EV-000001": {
+    "case": "cross-section",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0001",
+      "R_DEPARTMENT"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0001",
+        "R_DEPARTMENT"
+      ],
+      "decision": "approve",
+      "event_id": "EV-000001",
+      "limit_usd": 150,
+      "reason": "Apply the department cap from section 9 to section 1 eligibility."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0001",
+      "R_DEPARTMENT"
+    ]
+  },
+  "EV-000002": {
+    "case": "cross-document",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0001",
+      "R_VENDOR"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0001",
+        "R_VENDOR"
+      ],
+      "decision": "reject",
+      "event_id": "EV-000002",
+      "limit_usd": 350,
+      "reason": "Vendor control overrides monetary eligibility."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0001",
+      "R_VENDOR"
+    ]
+  },
+  "EV-000003": {
+    "case": "buried-exception",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0003",
+      "R_EMERGENCY"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0003",
+        "R_EMERGENCY"
+      ],
+      "decision": "approve",
+      "event_id": "EV-000003",
+      "limit_usd": 1000,
+      "reason": "Appendix Q replaces the city limit with the incident travel limit."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0003",
+      "R_EMERGENCY"
+    ]
+  },
+  "EV-000004": {
+    "case": "lookup-dependent",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0012"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0012"
+      ],
+      "decision": "approve",
+      "event_id": "EV-000004",
+      "limit_usd": 250,
+      "reason": "Compare the claim with the exact city lookup row."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0012"
+    ]
+  },
+  "EV-000005": {
+    "case": "ambiguous-abstain",
+    "critical_rules": [
+      "R_ABSTAIN"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_ABSTAIN"
+      ],
+      "decision": "abstain",
+      "event_id": "EV-000005",
+      "limit_usd": null,
+      "reason": "Evidence is missing or conflicting; do not guess."
+    },
+    "required_source_ids": [
+      "R_ABSTAIN"
+    ]
+  },
+  "EV-000006": {
+    "case": "normal",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0011"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0011"
+      ],
+      "decision": "approve",
+      "event_id": "EV-000006",
+      "limit_usd": 250,
+      "reason": "Within the city limit."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0011"
+    ]
+  },
+  "EV-000007": {
+    "case": "cross-section",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0009",
+      "R_DEPARTMENT"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0009",
+        "R_DEPARTMENT"
+      ],
+      "decision": "reject",
+      "event_id": "EV-000007",
+      "limit_usd": 150,
+      "reason": "Apply the department cap from section 9 to section 1 eligibility."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0009",
+      "R_DEPARTMENT"
+    ]
+  },
+  "EV-000008": {
+    "case": "cross-document",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0014",
+      "R_VENDOR"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0014",
+        "R_VENDOR"
+      ],
+      "decision": "reject",
+      "event_id": "EV-000008",
+      "limit_usd": 350,
+      "reason": "Vendor control overrides monetary eligibility."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0014",
+      "R_VENDOR"
+    ]
+  },
+  "EV-000009": {
+    "case": "buried-exception",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0015",
+      "R_EMERGENCY"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0015",
+        "R_EMERGENCY"
+      ],
+      "decision": "reject",
+      "event_id": "EV-000009",
+      "limit_usd": 1000,
+      "reason": "Appendix Q replaces the city limit with the incident travel limit."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0015",
+      "R_EMERGENCY"
+    ]
+  },
+  "EV-000010": {
+    "case": "lookup-dependent",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0014"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0014"
+      ],
+      "decision": "reject",
+      "event_id": "EV-000010",
+      "limit_usd": 350,
+      "reason": "Compare the claim with the exact city lookup row."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0014"
+    ]
+  },
+  "EV-000011": {
+    "case": "ambiguous-abstain",
+    "critical_rules": [
+      "R_ABSTAIN"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_ABSTAIN"
+      ],
+      "decision": "abstain",
+      "event_id": "EV-000011",
+      "limit_usd": null,
+      "reason": "Evidence is missing or conflicting; do not guess."
+    },
+    "required_source_ids": [
+      "R_ABSTAIN"
+    ]
+  },
+  "EV-000012": {
+    "case": "normal",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0008"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0008"
+      ],
+      "decision": "approve",
+      "event_id": "EV-000012",
+      "limit_usd": 400,
+      "reason": "Within the city limit."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0008"
+    ]
+  },
+  "EV-000013": {
+    "case": "cross-section",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0006",
+      "R_DEPARTMENT"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0006",
+        "R_DEPARTMENT"
+      ],
+      "decision": "approve",
+      "event_id": "EV-000013",
+      "limit_usd": 150,
+      "reason": "Apply the department cap from section 9 to section 1 eligibility."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0006",
+      "R_DEPARTMENT"
+    ]
+  },
+  "EV-000014": {
+    "case": "cross-document",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0014",
+      "R_VENDOR"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0014",
+        "R_VENDOR"
+      ],
+      "decision": "reject",
+      "event_id": "EV-000014",
+      "limit_usd": 350,
+      "reason": "Vendor control overrides monetary eligibility."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0014",
+      "R_VENDOR"
+    ]
+  },
+  "EV-000015": {
+    "case": "buried-exception",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0017",
+      "R_EMERGENCY"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0017",
+        "R_EMERGENCY"
+      ],
+      "decision": "approve",
+      "event_id": "EV-000015",
+      "limit_usd": 1000,
+      "reason": "Appendix Q replaces the city limit with the incident travel limit."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0017",
+      "R_EMERGENCY"
+    ]
+  },
+  "EV-000016": {
+    "case": "lookup-dependent",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0003"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0003"
+      ],
+      "decision": "approve",
+      "event_id": "EV-000016",
+      "limit_usd": 350,
+      "reason": "Compare the claim with the exact city lookup row."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0003"
+    ]
+  },
+  "EV-000017": {
+    "case": "ambiguous-abstain",
+    "critical_rules": [
+      "R_ABSTAIN"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_ABSTAIN"
+      ],
+      "decision": "abstain",
+      "event_id": "EV-000017",
+      "limit_usd": null,
+      "reason": "Evidence is missing or conflicting; do not guess."
+    },
+    "required_source_ids": [
+      "R_ABSTAIN"
+    ]
+  },
+  "EV-000018": {
+    "case": "normal",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0008"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0008"
+      ],
+      "decision": "approve",
+      "event_id": "EV-000018",
+      "limit_usd": 400,
+      "reason": "Within the city limit."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0008"
+    ]
+  },
+  "EV-000019": {
+    "case": "cross-section",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0014",
+      "R_DEPARTMENT"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0014",
+        "R_DEPARTMENT"
+      ],
+      "decision": "reject",
+      "event_id": "EV-000019",
+      "limit_usd": 150,
+      "reason": "Apply the department cap from section 9 to section 1 eligibility."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0014",
+      "R_DEPARTMENT"
+    ]
+  },
+  "EV-000020": {
+    "case": "cross-document",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0010",
+      "R_VENDOR"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0010",
+        "R_VENDOR"
+      ],
+      "decision": "reject",
+      "event_id": "EV-000020",
+      "limit_usd": 300,
+      "reason": "Vendor control overrides monetary eligibility."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0010",
+      "R_VENDOR"
+    ]
+  },
+  "EV-000021": {
+    "case": "buried-exception",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0001",
+      "R_EMERGENCY"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0001",
+        "R_EMERGENCY"
+      ],
+      "decision": "reject",
+      "event_id": "EV-000021",
+      "limit_usd": 1000,
+      "reason": "Appendix Q replaces the city limit with the incident travel limit."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0001",
+      "R_EMERGENCY"
+    ]
+  },
+  "EV-000022": {
+    "case": "lookup-dependent",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0020"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0020"
+      ],
+      "decision": "reject",
+      "event_id": "EV-000022",
+      "limit_usd": 300,
+      "reason": "Compare the claim with the exact city lookup row."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0020"
+    ]
+  },
+  "EV-000023": {
+    "case": "ambiguous-abstain",
+    "critical_rules": [
+      "R_ABSTAIN"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_ABSTAIN"
+      ],
+      "decision": "abstain",
+      "event_id": "EV-000023",
+      "limit_usd": null,
+      "reason": "Evidence is missing or conflicting; do not guess."
+    },
+    "required_source_ids": [
+      "R_ABSTAIN"
+    ]
+  },
+  "EV-000024": {
+    "case": "normal",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0011"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0011"
+      ],
+      "decision": "approve",
+      "event_id": "EV-000024",
+      "limit_usd": 250,
+      "reason": "Within the city limit."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0011"
+    ]
+  },
+  "EV-000025": {
+    "case": "cross-section",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0018",
+      "R_DEPARTMENT"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0018",
+        "R_DEPARTMENT"
+      ],
+      "decision": "approve",
+      "event_id": "EV-000025",
+      "limit_usd": 150,
+      "reason": "Apply the department cap from section 9 to section 1 eligibility."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0018",
+      "R_DEPARTMENT"
+    ]
+  },
+  "EV-000026": {
+    "case": "cross-document",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0022",
+      "R_VENDOR"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0022",
+        "R_VENDOR"
+      ],
+      "decision": "reject",
+      "event_id": "EV-000026",
+      "limit_usd": 400,
+      "reason": "Vendor control overrides monetary eligibility."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0022",
+      "R_VENDOR"
+    ]
+  },
+  "EV-000027": {
+    "case": "buried-exception",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0014",
+      "R_EMERGENCY"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0014",
+        "R_EMERGENCY"
+      ],
+      "decision": "approve",
+      "event_id": "EV-000027",
+      "limit_usd": 1000,
+      "reason": "Appendix Q replaces the city limit with the incident travel limit."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0014",
+      "R_EMERGENCY"
+    ]
+  },
+  "EV-000028": {
+    "case": "lookup-dependent",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0005"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0005"
+      ],
+      "decision": "approve",
+      "event_id": "EV-000028",
+      "limit_usd": 200,
+      "reason": "Compare the claim with the exact city lookup row."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0005"
+    ]
+  },
+  "EV-000029": {
+    "case": "ambiguous-abstain",
+    "critical_rules": [
+      "R_ABSTAIN"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_ABSTAIN"
+      ],
+      "decision": "abstain",
+      "event_id": "EV-000029",
+      "limit_usd": null,
+      "reason": "Evidence is missing or conflicting; do not guess."
+    },
+    "required_source_ids": [
+      "R_ABSTAIN"
+    ]
+  },
+  "EV-000030": {
+    "case": "normal",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0008"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0008"
+      ],
+      "decision": "approve",
+      "event_id": "EV-000030",
+      "limit_usd": 400,
+      "reason": "Within the city limit."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0008"
+    ]
+  },
+  "EV-000031": {
+    "case": "cross-section",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0016",
+      "R_DEPARTMENT"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0016",
+        "R_DEPARTMENT"
+      ],
+      "decision": "reject",
+      "event_id": "EV-000031",
+      "limit_usd": 150,
+      "reason": "Apply the department cap from section 9 to section 1 eligibility."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0016",
+      "R_DEPARTMENT"
+    ]
+  },
+  "EV-000032": {
+    "case": "cross-document",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0019",
+      "R_VENDOR"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0019",
+        "R_VENDOR"
+      ],
+      "decision": "reject",
+      "event_id": "EV-000032",
+      "limit_usd": 350,
+      "reason": "Vendor control overrides monetary eligibility."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0019",
+      "R_VENDOR"
+    ]
+  },
+  "EV-000033": {
+    "case": "buried-exception",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0008",
+      "R_EMERGENCY"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0008",
+        "R_EMERGENCY"
+      ],
+      "decision": "reject",
+      "event_id": "EV-000033",
+      "limit_usd": 1000,
+      "reason": "Appendix Q replaces the city limit with the incident travel limit."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0008",
+      "R_EMERGENCY"
+    ]
+  },
+  "EV-000034": {
+    "case": "lookup-dependent",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0022"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0022"
+      ],
+      "decision": "reject",
+      "event_id": "EV-000034",
+      "limit_usd": 400,
+      "reason": "Compare the claim with the exact city lookup row."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0022"
+    ]
+  },
+  "EV-000035": {
+    "case": "ambiguous-abstain",
+    "critical_rules": [
+      "R_ABSTAIN"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_ABSTAIN"
+      ],
+      "decision": "abstain",
+      "event_id": "EV-000035",
+      "limit_usd": null,
+      "reason": "Evidence is missing or conflicting; do not guess."
+    },
+    "required_source_ids": [
+      "R_ABSTAIN"
+    ]
+  },
+  "EV-000036": {
+    "case": "normal",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0023"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0023"
+      ],
+      "decision": "approve",
+      "event_id": "EV-000036",
+      "limit_usd": 300,
+      "reason": "Within the city limit."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0023"
+    ]
+  },
+  "EV-000037": {
+    "case": "cross-section",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0000",
+      "R_DEPARTMENT"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0000",
+        "R_DEPARTMENT"
+      ],
+      "decision": "approve",
+      "event_id": "EV-000037",
+      "limit_usd": 150,
+      "reason": "Apply the department cap from section 9 to section 1 eligibility."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0000",
+      "R_DEPARTMENT"
+    ]
+  },
+  "EV-000038": {
+    "case": "cross-document",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0009",
+      "R_VENDOR"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0009",
+        "R_VENDOR"
+      ],
+      "decision": "reject",
+      "event_id": "EV-000038",
+      "limit_usd": 300,
+      "reason": "Vendor control overrides monetary eligibility."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0009",
+      "R_VENDOR"
+    ]
+  },
+  "EV-000039": {
+    "case": "buried-exception",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0005",
+      "R_EMERGENCY"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0005",
+        "R_EMERGENCY"
+      ],
+      "decision": "approve",
+      "event_id": "EV-000039",
+      "limit_usd": 1000,
+      "reason": "Appendix Q replaces the city limit with the incident travel limit."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0005",
+      "R_EMERGENCY"
+    ]
+  },
+  "EV-000040": {
+    "case": "lookup-dependent",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0020"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0020"
+      ],
+      "decision": "approve",
+      "event_id": "EV-000040",
+      "limit_usd": 300,
+      "reason": "Compare the claim with the exact city lookup row."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0020"
+    ]
+  },
+  "EV-000041": {
+    "case": "ambiguous-abstain",
+    "critical_rules": [
+      "R_ABSTAIN"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_ABSTAIN"
+      ],
+      "decision": "abstain",
+      "event_id": "EV-000041",
+      "limit_usd": null,
+      "reason": "Evidence is missing or conflicting; do not guess."
+    },
+    "required_source_ids": [
+      "R_ABSTAIN"
+    ]
+  },
+  "EV-000042": {
+    "case": "normal",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0006"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0006"
+      ],
+      "decision": "approve",
+      "event_id": "EV-000042",
+      "limit_usd": 250,
+      "reason": "Within the city limit."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0006"
+    ]
+  },
+  "EV-000043": {
+    "case": "cross-section",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0015",
+      "R_DEPARTMENT"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0015",
+        "R_DEPARTMENT"
+      ],
+      "decision": "reject",
+      "event_id": "EV-000043",
+      "limit_usd": 150,
+      "reason": "Apply the department cap from section 9 to section 1 eligibility."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0015",
+      "R_DEPARTMENT"
+    ]
+  },
+  "EV-000044": {
+    "case": "cross-document",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0021",
+      "R_VENDOR"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0021",
+        "R_VENDOR"
+      ],
+      "decision": "reject",
+      "event_id": "EV-000044",
+      "limit_usd": 350,
+      "reason": "Vendor control overrides monetary eligibility."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0021",
+      "R_VENDOR"
+    ]
+  },
+  "EV-000045": {
+    "case": "buried-exception",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0008",
+      "R_EMERGENCY"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0008",
+        "R_EMERGENCY"
+      ],
+      "decision": "reject",
+      "event_id": "EV-000045",
+      "limit_usd": 1000,
+      "reason": "Appendix Q replaces the city limit with the incident travel limit."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0008",
+      "R_EMERGENCY"
+    ]
+  },
+  "EV-000046": {
+    "case": "lookup-dependent",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0009"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0009"
+      ],
+      "decision": "reject",
+      "event_id": "EV-000046",
+      "limit_usd": 300,
+      "reason": "Compare the claim with the exact city lookup row."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0009"
+    ]
+  },
+  "EV-000047": {
+    "case": "ambiguous-abstain",
+    "critical_rules": [
+      "R_ABSTAIN"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_ABSTAIN"
+      ],
+      "decision": "abstain",
+      "event_id": "EV-000047",
+      "limit_usd": null,
+      "reason": "Evidence is missing or conflicting; do not guess."
+    },
+    "required_source_ids": [
+      "R_ABSTAIN"
+    ]
+  },
+  "EV-000048": {
+    "case": "normal",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0023"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0023"
+      ],
+      "decision": "approve",
+      "event_id": "EV-000048",
+      "limit_usd": 300,
+      "reason": "Within the city limit."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0023"
+    ]
+  },
+  "EV-000049": {
+    "case": "cross-section",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0022",
+      "R_DEPARTMENT"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0022",
+        "R_DEPARTMENT"
+      ],
+      "decision": "approve",
+      "event_id": "EV-000049",
+      "limit_usd": 150,
+      "reason": "Apply the department cap from section 9 to section 1 eligibility."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0022",
+      "R_DEPARTMENT"
+    ]
+  },
+  "EV-000050": {
+    "case": "cross-document",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0009",
+      "R_VENDOR"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0009",
+        "R_VENDOR"
+      ],
+      "decision": "reject",
+      "event_id": "EV-000050",
+      "limit_usd": 300,
+      "reason": "Vendor control overrides monetary eligibility."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0009",
+      "R_VENDOR"
+    ]
+  },
+  "EV-000051": {
+    "case": "buried-exception",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0005",
+      "R_EMERGENCY"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0005",
+        "R_EMERGENCY"
+      ],
+      "decision": "approve",
+      "event_id": "EV-000051",
+      "limit_usd": 1000,
+      "reason": "Appendix Q replaces the city limit with the incident travel limit."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0005",
+      "R_EMERGENCY"
+    ]
+  },
+  "EV-000052": {
+    "case": "lookup-dependent",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0008"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0008"
+      ],
+      "decision": "approve",
+      "event_id": "EV-000052",
+      "limit_usd": 400,
+      "reason": "Compare the claim with the exact city lookup row."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0008"
+    ]
+  },
+  "EV-000053": {
+    "case": "ambiguous-abstain",
+    "critical_rules": [
+      "R_ABSTAIN"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_ABSTAIN"
+      ],
+      "decision": "abstain",
+      "event_id": "EV-000053",
+      "limit_usd": null,
+      "reason": "Evidence is missing or conflicting; do not guess."
+    },
+    "required_source_ids": [
+      "R_ABSTAIN"
+    ]
+  },
+  "EV-000054": {
+    "case": "normal",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0002"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0002"
+      ],
+      "decision": "approve",
+      "event_id": "EV-000054",
+      "limit_usd": 400,
+      "reason": "Within the city limit."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0002"
+    ]
+  },
+  "EV-000055": {
+    "case": "cross-section",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0014",
+      "R_DEPARTMENT"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0014",
+        "R_DEPARTMENT"
+      ],
+      "decision": "reject",
+      "event_id": "EV-000055",
+      "limit_usd": 150,
+      "reason": "Apply the department cap from section 9 to section 1 eligibility."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0014",
+      "R_DEPARTMENT"
+    ]
+  },
+  "EV-000056": {
+    "case": "cross-document",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0011",
+      "R_VENDOR"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0011",
+        "R_VENDOR"
+      ],
+      "decision": "reject",
+      "event_id": "EV-000056",
+      "limit_usd": 250,
+      "reason": "Vendor control overrides monetary eligibility."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0011",
+      "R_VENDOR"
+    ]
+  },
+  "EV-000057": {
+    "case": "buried-exception",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0022",
+      "R_EMERGENCY"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0022",
+        "R_EMERGENCY"
+      ],
+      "decision": "reject",
+      "event_id": "EV-000057",
+      "limit_usd": 1000,
+      "reason": "Appendix Q replaces the city limit with the incident travel limit."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0022",
+      "R_EMERGENCY"
+    ]
+  },
+  "EV-000058": {
+    "case": "lookup-dependent",
+    "critical_rules": [
+      "R_BASE",
+      "L_CITY_0023"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_BASE",
+        "L_CITY_0023"
+      ],
+      "decision": "reject",
+      "event_id": "EV-000058",
+      "limit_usd": 300,
+      "reason": "Compare the claim with the exact city lookup row."
+    },
+    "required_source_ids": [
+      "R_BASE",
+      "L_CITY_0023"
+    ]
+  },
+  "EV-000059": {
+    "case": "ambiguous-abstain",
+    "critical_rules": [
+      "R_ABSTAIN"
+    ],
+    "output": {
+      "applied_rules": [
+        "R_ABSTAIN"
+      ],
+      "decision": "abstain",
+      "event_id": "EV-000059",
+      "limit_usd": null,
+      "reason": "Evidence is missing or conflicting; do not guess."
+    },
+    "required_source_ids": [
+      "R_ABSTAIN"
+    ]
+  }
+}

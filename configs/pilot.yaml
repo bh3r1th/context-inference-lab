@@ -1,0 +1,40 @@
+experiment_id: pilot-enterprise
+seed: 42
+dataset: ../data/enterprise
+output_dir: ../results/pilot/enterprise
+strategies: [full_context, prefix_cached_full_context, retrieval, compiled_context]
+concurrency: [1, 8]
+repetitions: 1
+warmup_requests: 1
+event_ids: [EV-000000, EV-000001, EV-000002, EV-000003, EV-000004, EV-000005, EV-000006, EV-000007, EV-000008, EV-000009]
+context:
+  retrieval:
+    method: bm25
+    top_k: 8
+    chunk_chars: 1200
+    overlap_chars: 120
+    bm25_k1: 1.5
+    bm25_b: 0.75
+  tokenizer:
+    method: regex
+telemetry_interval_s: 0.5
+local_gpu_metrics: true
+server: &uncached
+  base_url: http://localhost:8000/v1
+  metrics_url: http://localhost:8000/metrics
+  model: Qwen/Qwen2.5-7B-Instruct
+  model_revision: REPLACE_WITH_MODEL_COMMIT
+  vllm_version: REPLACE_WITH_INSTALLED_VERSION
+  launch_command: REPLACE_WITH_EXACT_UNCACHED_SERVER_COMMAND
+  prefix_caching: false
+  timeout_s: 120.0
+  max_tokens: 256
+  structured_output: true
+  structured_output_mode: vllm
+strategy_servers:
+  prefix_cached_full_context:
+    <<: *uncached
+    base_url: http://localhost:8001/v1
+    metrics_url: http://localhost:8001/metrics
+    prefix_caching: true
+    launch_command: REPLACE_WITH_EXACT_CACHE_ENABLED_SERVER_COMMAND

@@ -1,0 +1,2171 @@
+[
+  {
+    "event": {
+      "amount_usd": 205,
+      "category": "travel",
+      "city": "Harbor-0017",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-03653",
+      "event_id": "EV-000000",
+      "invoice_id": "INV-0000000",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "normal",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0017"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0017"
+        ],
+        "decision": "approve",
+        "event_id": "EV-000000",
+        "limit_usd": 350,
+        "reason": "Within the city limit."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0017"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 150,
+      "category": "travel",
+      "city": "Harbor-0001",
+      "currency": "USD",
+      "department": "FIELD",
+      "emergency": false,
+      "employee_id": "EMP-09420",
+      "event_id": "EV-000001",
+      "invoice_id": "INV-0000001",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "cross-section",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0001",
+        "R_DEPARTMENT"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0001",
+          "R_DEPARTMENT"
+        ],
+        "decision": "approve",
+        "event_id": "EV-000001",
+        "limit_usd": 150,
+        "reason": "Apply the department cap from section 9 to section 1 eligibility."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0001",
+        "R_DEPARTMENT"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 350,
+      "category": "travel",
+      "city": "Harbor-0001",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-09921",
+      "event_id": "EV-000002",
+      "invoice_id": "INV-0000002",
+      "vendor_status": "restricted"
+    },
+    "ground_truth": {
+      "case": "cross-document",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0001",
+        "R_VENDOR"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0001",
+          "R_VENDOR"
+        ],
+        "decision": "reject",
+        "event_id": "EV-000002",
+        "limit_usd": 350,
+        "reason": "Vendor control overrides monetary eligibility."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0001",
+        "R_VENDOR"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 1000,
+      "category": "travel",
+      "city": "Harbor-0003",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": true,
+      "employee_id": "EMP-08875",
+      "event_id": "EV-000003",
+      "incident_id": "INC-000003",
+      "invoice_id": "INV-0000003",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "buried-exception",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0003",
+        "R_EMERGENCY"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0003",
+          "R_EMERGENCY"
+        ],
+        "decision": "approve",
+        "event_id": "EV-000003",
+        "limit_usd": 1000,
+        "reason": "Appendix Q replaces the city limit with the incident travel limit."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0003",
+        "R_EMERGENCY"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 250,
+      "category": "travel",
+      "city": "Harbor-0012",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-09954",
+      "event_id": "EV-000004",
+      "invoice_id": "INV-0000004",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "lookup-dependent",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0012"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0012"
+        ],
+        "decision": "approve",
+        "event_id": "EV-000004",
+        "limit_usd": 250,
+        "reason": "Compare the claim with the exact city lookup row."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0012"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 300,
+      "category": "travel",
+      "city": "Unlisted Harbor",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-04884",
+      "event_id": "EV-000005",
+      "invoice_id": "INV-0000005",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "ambiguous-abstain",
+      "critical_rules": [
+        "R_ABSTAIN"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_ABSTAIN"
+        ],
+        "decision": "abstain",
+        "event_id": "EV-000005",
+        "limit_usd": null,
+        "reason": "Evidence is missing or conflicting; do not guess."
+      },
+      "required_source_ids": [
+        "R_ABSTAIN"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 145,
+      "category": "travel",
+      "city": "Harbor-0011",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-00081",
+      "event_id": "EV-000006",
+      "invoice_id": "INV-0000006",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "normal",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0011"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0011"
+        ],
+        "decision": "approve",
+        "event_id": "EV-000006",
+        "limit_usd": 250,
+        "reason": "Within the city limit."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0011"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 151,
+      "category": "travel",
+      "city": "Harbor-0009",
+      "currency": "USD",
+      "department": "FIELD",
+      "emergency": false,
+      "employee_id": "EMP-09407",
+      "event_id": "EV-000007",
+      "invoice_id": "INV-0000007",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "cross-section",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0009",
+        "R_DEPARTMENT"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0009",
+          "R_DEPARTMENT"
+        ],
+        "decision": "reject",
+        "event_id": "EV-000007",
+        "limit_usd": 150,
+        "reason": "Apply the department cap from section 9 to section 1 eligibility."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0009",
+        "R_DEPARTMENT"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 350,
+      "category": "travel",
+      "city": "Harbor-0014",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-09623",
+      "event_id": "EV-000008",
+      "invoice_id": "INV-0000008",
+      "vendor_status": "restricted"
+    },
+    "ground_truth": {
+      "case": "cross-document",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0014",
+        "R_VENDOR"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0014",
+          "R_VENDOR"
+        ],
+        "decision": "reject",
+        "event_id": "EV-000008",
+        "limit_usd": 350,
+        "reason": "Vendor control overrides monetary eligibility."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0014",
+        "R_VENDOR"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 1001,
+      "category": "travel",
+      "city": "Harbor-0015",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": true,
+      "employee_id": "EMP-06774",
+      "event_id": "EV-000009",
+      "incident_id": "INC-000009",
+      "invoice_id": "INV-0000009",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "buried-exception",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0015",
+        "R_EMERGENCY"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0015",
+          "R_EMERGENCY"
+        ],
+        "decision": "reject",
+        "event_id": "EV-000009",
+        "limit_usd": 1000,
+        "reason": "Appendix Q replaces the city limit with the incident travel limit."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0015",
+        "R_EMERGENCY"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 351,
+      "category": "travel",
+      "city": "Harbor-0014",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-07119",
+      "event_id": "EV-000010",
+      "invoice_id": "INV-0000010",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "lookup-dependent",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0014"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0014"
+        ],
+        "decision": "reject",
+        "event_id": "EV-000010",
+        "limit_usd": 350,
+        "reason": "Compare the claim with the exact city lookup row."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0014"
+      ]
+    }
+  },
+  {
+    "event": {
+      "category": "travel",
+      "city": "Harbor-0007",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-00102",
+      "event_id": "EV-000011",
+      "invoice_id": "INV-0000011",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "ambiguous-abstain",
+      "critical_rules": [
+        "R_ABSTAIN"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_ABSTAIN"
+        ],
+        "decision": "abstain",
+        "event_id": "EV-000011",
+        "limit_usd": null,
+        "reason": "Evidence is missing or conflicting; do not guess."
+      },
+      "required_source_ids": [
+        "R_ABSTAIN"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 57,
+      "category": "travel",
+      "city": "Harbor-0008",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-06443",
+      "event_id": "EV-000012",
+      "invoice_id": "INV-0000012",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "normal",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0008"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0008"
+        ],
+        "decision": "approve",
+        "event_id": "EV-000012",
+        "limit_usd": 400,
+        "reason": "Within the city limit."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0008"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 150,
+      "category": "travel",
+      "city": "Harbor-0006",
+      "currency": "USD",
+      "department": "FIELD",
+      "emergency": false,
+      "employee_id": "EMP-02839",
+      "event_id": "EV-000013",
+      "invoice_id": "INV-0000013",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "cross-section",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0006",
+        "R_DEPARTMENT"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0006",
+          "R_DEPARTMENT"
+        ],
+        "decision": "approve",
+        "event_id": "EV-000013",
+        "limit_usd": 150,
+        "reason": "Apply the department cap from section 9 to section 1 eligibility."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0006",
+        "R_DEPARTMENT"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 350,
+      "category": "travel",
+      "city": "Harbor-0014",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-04751",
+      "event_id": "EV-000014",
+      "invoice_id": "INV-0000014",
+      "vendor_status": "restricted"
+    },
+    "ground_truth": {
+      "case": "cross-document",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0014",
+        "R_VENDOR"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0014",
+          "R_VENDOR"
+        ],
+        "decision": "reject",
+        "event_id": "EV-000014",
+        "limit_usd": 350,
+        "reason": "Vendor control overrides monetary eligibility."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0014",
+        "R_VENDOR"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 1000,
+      "category": "travel",
+      "city": "Harbor-0017",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": true,
+      "employee_id": "EMP-07623",
+      "event_id": "EV-000015",
+      "incident_id": "INC-000015",
+      "invoice_id": "INV-0000015",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "buried-exception",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0017",
+        "R_EMERGENCY"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0017",
+          "R_EMERGENCY"
+        ],
+        "decision": "approve",
+        "event_id": "EV-000015",
+        "limit_usd": 1000,
+        "reason": "Appendix Q replaces the city limit with the incident travel limit."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0017",
+        "R_EMERGENCY"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 350,
+      "category": "travel",
+      "city": "Harbor-0003",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-07176",
+      "event_id": "EV-000016",
+      "invoice_id": "INV-0000016",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "lookup-dependent",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0003"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0003"
+        ],
+        "decision": "approve",
+        "event_id": "EV-000016",
+        "limit_usd": 350,
+        "reason": "Compare the claim with the exact city lookup row."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0003"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 250,
+      "category": "travel",
+      "city": "Harbor-0004",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-06021",
+      "event_id": "EV-000017",
+      "invoice_id": "INV-0000017",
+      "receipt_amount_usd": 251,
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "ambiguous-abstain",
+      "critical_rules": [
+        "R_ABSTAIN"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_ABSTAIN"
+        ],
+        "decision": "abstain",
+        "event_id": "EV-000017",
+        "limit_usd": null,
+        "reason": "Evidence is missing or conflicting; do not guess."
+      },
+      "required_source_ids": [
+        "R_ABSTAIN"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 225,
+      "category": "travel",
+      "city": "Harbor-0008",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-08449",
+      "event_id": "EV-000018",
+      "invoice_id": "INV-0000018",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "normal",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0008"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0008"
+        ],
+        "decision": "approve",
+        "event_id": "EV-000018",
+        "limit_usd": 400,
+        "reason": "Within the city limit."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0008"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 151,
+      "category": "travel",
+      "city": "Harbor-0014",
+      "currency": "USD",
+      "department": "FIELD",
+      "emergency": false,
+      "employee_id": "EMP-03568",
+      "event_id": "EV-000019",
+      "invoice_id": "INV-0000019",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "cross-section",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0014",
+        "R_DEPARTMENT"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0014",
+          "R_DEPARTMENT"
+        ],
+        "decision": "reject",
+        "event_id": "EV-000019",
+        "limit_usd": 150,
+        "reason": "Apply the department cap from section 9 to section 1 eligibility."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0014",
+        "R_DEPARTMENT"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 300,
+      "category": "travel",
+      "city": "Harbor-0010",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-01993",
+      "event_id": "EV-000020",
+      "invoice_id": "INV-0000020",
+      "vendor_status": "restricted"
+    },
+    "ground_truth": {
+      "case": "cross-document",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0010",
+        "R_VENDOR"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0010",
+          "R_VENDOR"
+        ],
+        "decision": "reject",
+        "event_id": "EV-000020",
+        "limit_usd": 300,
+        "reason": "Vendor control overrides monetary eligibility."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0010",
+        "R_VENDOR"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 1001,
+      "category": "travel",
+      "city": "Harbor-0001",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": true,
+      "employee_id": "EMP-08457",
+      "event_id": "EV-000021",
+      "incident_id": "INC-000021",
+      "invoice_id": "INV-0000021",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "buried-exception",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0001",
+        "R_EMERGENCY"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0001",
+          "R_EMERGENCY"
+        ],
+        "decision": "reject",
+        "event_id": "EV-000021",
+        "limit_usd": 1000,
+        "reason": "Appendix Q replaces the city limit with the incident travel limit."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0001",
+        "R_EMERGENCY"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 301,
+      "category": "travel",
+      "city": "Harbor-0020",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-08052",
+      "event_id": "EV-000022",
+      "invoice_id": "INV-0000022",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "lookup-dependent",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0020"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0020"
+        ],
+        "decision": "reject",
+        "event_id": "EV-000022",
+        "limit_usd": 300,
+        "reason": "Compare the claim with the exact city lookup row."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0020"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 350,
+      "category": "travel",
+      "city": "Harbor-0001",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": true,
+      "employee_id": "EMP-04654",
+      "event_id": "EV-000023",
+      "invoice_id": "INV-0000023",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "ambiguous-abstain",
+      "critical_rules": [
+        "R_ABSTAIN"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_ABSTAIN"
+        ],
+        "decision": "abstain",
+        "event_id": "EV-000023",
+        "limit_usd": null,
+        "reason": "Evidence is missing or conflicting; do not guess."
+      },
+      "required_source_ids": [
+        "R_ABSTAIN"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 44,
+      "category": "travel",
+      "city": "Harbor-0011",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-06899",
+      "event_id": "EV-000024",
+      "invoice_id": "INV-0000024",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "normal",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0011"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0011"
+        ],
+        "decision": "approve",
+        "event_id": "EV-000024",
+        "limit_usd": 250,
+        "reason": "Within the city limit."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0011"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 150,
+      "category": "travel",
+      "city": "Harbor-0018",
+      "currency": "USD",
+      "department": "FIELD",
+      "emergency": false,
+      "employee_id": "EMP-02611",
+      "event_id": "EV-000025",
+      "invoice_id": "INV-0000025",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "cross-section",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0018",
+        "R_DEPARTMENT"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0018",
+          "R_DEPARTMENT"
+        ],
+        "decision": "approve",
+        "event_id": "EV-000025",
+        "limit_usd": 150,
+        "reason": "Apply the department cap from section 9 to section 1 eligibility."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0018",
+        "R_DEPARTMENT"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 400,
+      "category": "travel",
+      "city": "Harbor-0022",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-09159",
+      "event_id": "EV-000026",
+      "invoice_id": "INV-0000026",
+      "vendor_status": "restricted"
+    },
+    "ground_truth": {
+      "case": "cross-document",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0022",
+        "R_VENDOR"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0022",
+          "R_VENDOR"
+        ],
+        "decision": "reject",
+        "event_id": "EV-000026",
+        "limit_usd": 400,
+        "reason": "Vendor control overrides monetary eligibility."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0022",
+        "R_VENDOR"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 1000,
+      "category": "travel",
+      "city": "Harbor-0014",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": true,
+      "employee_id": "EMP-07403",
+      "event_id": "EV-000027",
+      "incident_id": "INC-000027",
+      "invoice_id": "INV-0000027",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "buried-exception",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0014",
+        "R_EMERGENCY"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0014",
+          "R_EMERGENCY"
+        ],
+        "decision": "approve",
+        "event_id": "EV-000027",
+        "limit_usd": 1000,
+        "reason": "Appendix Q replaces the city limit with the incident travel limit."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0014",
+        "R_EMERGENCY"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 200,
+      "category": "travel",
+      "city": "Harbor-0005",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-07292",
+      "event_id": "EV-000028",
+      "invoice_id": "INV-0000028",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "lookup-dependent",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0005"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0005"
+        ],
+        "decision": "approve",
+        "event_id": "EV-000028",
+        "limit_usd": 200,
+        "reason": "Compare the claim with the exact city lookup row."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0005"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 300,
+      "category": "travel",
+      "city": "Unlisted Harbor",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-09071",
+      "event_id": "EV-000029",
+      "invoice_id": "INV-0000029",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "ambiguous-abstain",
+      "critical_rules": [
+        "R_ABSTAIN"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_ABSTAIN"
+        ],
+        "decision": "abstain",
+        "event_id": "EV-000029",
+        "limit_usd": null,
+        "reason": "Evidence is missing or conflicting; do not guess."
+      },
+      "required_source_ids": [
+        "R_ABSTAIN"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 239,
+      "category": "travel",
+      "city": "Harbor-0008",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-08321",
+      "event_id": "EV-000030",
+      "invoice_id": "INV-0000030",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "normal",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0008"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0008"
+        ],
+        "decision": "approve",
+        "event_id": "EV-000030",
+        "limit_usd": 400,
+        "reason": "Within the city limit."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0008"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 151,
+      "category": "travel",
+      "city": "Harbor-0016",
+      "currency": "USD",
+      "department": "FIELD",
+      "emergency": false,
+      "employee_id": "EMP-08940",
+      "event_id": "EV-000031",
+      "invoice_id": "INV-0000031",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "cross-section",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0016",
+        "R_DEPARTMENT"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0016",
+          "R_DEPARTMENT"
+        ],
+        "decision": "reject",
+        "event_id": "EV-000031",
+        "limit_usd": 150,
+        "reason": "Apply the department cap from section 9 to section 1 eligibility."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0016",
+        "R_DEPARTMENT"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 350,
+      "category": "travel",
+      "city": "Harbor-0019",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-01940",
+      "event_id": "EV-000032",
+      "invoice_id": "INV-0000032",
+      "vendor_status": "restricted"
+    },
+    "ground_truth": {
+      "case": "cross-document",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0019",
+        "R_VENDOR"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0019",
+          "R_VENDOR"
+        ],
+        "decision": "reject",
+        "event_id": "EV-000032",
+        "limit_usd": 350,
+        "reason": "Vendor control overrides monetary eligibility."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0019",
+        "R_VENDOR"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 1001,
+      "category": "travel",
+      "city": "Harbor-0008",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": true,
+      "employee_id": "EMP-06992",
+      "event_id": "EV-000033",
+      "incident_id": "INC-000033",
+      "invoice_id": "INV-0000033",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "buried-exception",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0008",
+        "R_EMERGENCY"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0008",
+          "R_EMERGENCY"
+        ],
+        "decision": "reject",
+        "event_id": "EV-000033",
+        "limit_usd": 1000,
+        "reason": "Appendix Q replaces the city limit with the incident travel limit."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0008",
+        "R_EMERGENCY"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 401,
+      "category": "travel",
+      "city": "Harbor-0022",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-01624",
+      "event_id": "EV-000034",
+      "invoice_id": "INV-0000034",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "lookup-dependent",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0022"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0022"
+        ],
+        "decision": "reject",
+        "event_id": "EV-000034",
+        "limit_usd": 400,
+        "reason": "Compare the claim with the exact city lookup row."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0022"
+      ]
+    }
+  },
+  {
+    "event": {
+      "category": "travel",
+      "city": "Harbor-0002",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-07783",
+      "event_id": "EV-000035",
+      "invoice_id": "INV-0000035",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "ambiguous-abstain",
+      "critical_rules": [
+        "R_ABSTAIN"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_ABSTAIN"
+        ],
+        "decision": "abstain",
+        "event_id": "EV-000035",
+        "limit_usd": null,
+        "reason": "Evidence is missing or conflicting; do not guess."
+      },
+      "required_source_ids": [
+        "R_ABSTAIN"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 291,
+      "category": "travel",
+      "city": "Harbor-0023",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-04598",
+      "event_id": "EV-000036",
+      "invoice_id": "INV-0000036",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "normal",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0023"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0023"
+        ],
+        "decision": "approve",
+        "event_id": "EV-000036",
+        "limit_usd": 300,
+        "reason": "Within the city limit."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0023"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 150,
+      "category": "travel",
+      "city": "Harbor-0000",
+      "currency": "USD",
+      "department": "FIELD",
+      "emergency": false,
+      "employee_id": "EMP-04392",
+      "event_id": "EV-000037",
+      "invoice_id": "INV-0000037",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "cross-section",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0000",
+        "R_DEPARTMENT"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0000",
+          "R_DEPARTMENT"
+        ],
+        "decision": "approve",
+        "event_id": "EV-000037",
+        "limit_usd": 150,
+        "reason": "Apply the department cap from section 9 to section 1 eligibility."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0000",
+        "R_DEPARTMENT"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 300,
+      "category": "travel",
+      "city": "Harbor-0009",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-00514",
+      "event_id": "EV-000038",
+      "invoice_id": "INV-0000038",
+      "vendor_status": "restricted"
+    },
+    "ground_truth": {
+      "case": "cross-document",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0009",
+        "R_VENDOR"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0009",
+          "R_VENDOR"
+        ],
+        "decision": "reject",
+        "event_id": "EV-000038",
+        "limit_usd": 300,
+        "reason": "Vendor control overrides monetary eligibility."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0009",
+        "R_VENDOR"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 1000,
+      "category": "travel",
+      "city": "Harbor-0005",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": true,
+      "employee_id": "EMP-09999",
+      "event_id": "EV-000039",
+      "incident_id": "INC-000039",
+      "invoice_id": "INV-0000039",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "buried-exception",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0005",
+        "R_EMERGENCY"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0005",
+          "R_EMERGENCY"
+        ],
+        "decision": "approve",
+        "event_id": "EV-000039",
+        "limit_usd": 1000,
+        "reason": "Appendix Q replaces the city limit with the incident travel limit."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0005",
+        "R_EMERGENCY"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 300,
+      "category": "travel",
+      "city": "Harbor-0020",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-07701",
+      "event_id": "EV-000040",
+      "invoice_id": "INV-0000040",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "lookup-dependent",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0020"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0020"
+        ],
+        "decision": "approve",
+        "event_id": "EV-000040",
+        "limit_usd": 300,
+        "reason": "Compare the claim with the exact city lookup row."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0020"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 400,
+      "category": "travel",
+      "city": "Harbor-0008",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-03738",
+      "event_id": "EV-000041",
+      "invoice_id": "INV-0000041",
+      "receipt_amount_usd": 401,
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "ambiguous-abstain",
+      "critical_rules": [
+        "R_ABSTAIN"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_ABSTAIN"
+        ],
+        "decision": "abstain",
+        "event_id": "EV-000041",
+        "limit_usd": null,
+        "reason": "Evidence is missing or conflicting; do not guess."
+      },
+      "required_source_ids": [
+        "R_ABSTAIN"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 78,
+      "category": "travel",
+      "city": "Harbor-0006",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-01458",
+      "event_id": "EV-000042",
+      "invoice_id": "INV-0000042",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "normal",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0006"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0006"
+        ],
+        "decision": "approve",
+        "event_id": "EV-000042",
+        "limit_usd": 250,
+        "reason": "Within the city limit."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0006"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 151,
+      "category": "travel",
+      "city": "Harbor-0015",
+      "currency": "USD",
+      "department": "FIELD",
+      "emergency": false,
+      "employee_id": "EMP-04685",
+      "event_id": "EV-000043",
+      "invoice_id": "INV-0000043",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "cross-section",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0015",
+        "R_DEPARTMENT"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0015",
+          "R_DEPARTMENT"
+        ],
+        "decision": "reject",
+        "event_id": "EV-000043",
+        "limit_usd": 150,
+        "reason": "Apply the department cap from section 9 to section 1 eligibility."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0015",
+        "R_DEPARTMENT"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 350,
+      "category": "travel",
+      "city": "Harbor-0021",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-08289",
+      "event_id": "EV-000044",
+      "invoice_id": "INV-0000044",
+      "vendor_status": "restricted"
+    },
+    "ground_truth": {
+      "case": "cross-document",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0021",
+        "R_VENDOR"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0021",
+          "R_VENDOR"
+        ],
+        "decision": "reject",
+        "event_id": "EV-000044",
+        "limit_usd": 350,
+        "reason": "Vendor control overrides monetary eligibility."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0021",
+        "R_VENDOR"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 1001,
+      "category": "travel",
+      "city": "Harbor-0008",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": true,
+      "employee_id": "EMP-07102",
+      "event_id": "EV-000045",
+      "incident_id": "INC-000045",
+      "invoice_id": "INV-0000045",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "buried-exception",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0008",
+        "R_EMERGENCY"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0008",
+          "R_EMERGENCY"
+        ],
+        "decision": "reject",
+        "event_id": "EV-000045",
+        "limit_usd": 1000,
+        "reason": "Appendix Q replaces the city limit with the incident travel limit."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0008",
+        "R_EMERGENCY"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 301,
+      "category": "travel",
+      "city": "Harbor-0009",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-08138",
+      "event_id": "EV-000046",
+      "invoice_id": "INV-0000046",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "lookup-dependent",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0009"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0009"
+        ],
+        "decision": "reject",
+        "event_id": "EV-000046",
+        "limit_usd": 300,
+        "reason": "Compare the claim with the exact city lookup row."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0009"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 250,
+      "category": "travel",
+      "city": "Harbor-0012",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": true,
+      "employee_id": "EMP-00015",
+      "event_id": "EV-000047",
+      "invoice_id": "INV-0000047",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "ambiguous-abstain",
+      "critical_rules": [
+        "R_ABSTAIN"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_ABSTAIN"
+        ],
+        "decision": "abstain",
+        "event_id": "EV-000047",
+        "limit_usd": null,
+        "reason": "Evidence is missing or conflicting; do not guess."
+      },
+      "required_source_ids": [
+        "R_ABSTAIN"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 116,
+      "category": "travel",
+      "city": "Harbor-0023",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-08222",
+      "event_id": "EV-000048",
+      "invoice_id": "INV-0000048",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "normal",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0023"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0023"
+        ],
+        "decision": "approve",
+        "event_id": "EV-000048",
+        "limit_usd": 300,
+        "reason": "Within the city limit."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0023"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 150,
+      "category": "travel",
+      "city": "Harbor-0022",
+      "currency": "USD",
+      "department": "FIELD",
+      "emergency": false,
+      "employee_id": "EMP-01937",
+      "event_id": "EV-000049",
+      "invoice_id": "INV-0000049",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "cross-section",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0022",
+        "R_DEPARTMENT"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0022",
+          "R_DEPARTMENT"
+        ],
+        "decision": "approve",
+        "event_id": "EV-000049",
+        "limit_usd": 150,
+        "reason": "Apply the department cap from section 9 to section 1 eligibility."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0022",
+        "R_DEPARTMENT"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 300,
+      "category": "travel",
+      "city": "Harbor-0009",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-02940",
+      "event_id": "EV-000050",
+      "invoice_id": "INV-0000050",
+      "vendor_status": "restricted"
+    },
+    "ground_truth": {
+      "case": "cross-document",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0009",
+        "R_VENDOR"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0009",
+          "R_VENDOR"
+        ],
+        "decision": "reject",
+        "event_id": "EV-000050",
+        "limit_usd": 300,
+        "reason": "Vendor control overrides monetary eligibility."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0009",
+        "R_VENDOR"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 1000,
+      "category": "travel",
+      "city": "Harbor-0005",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": true,
+      "employee_id": "EMP-04656",
+      "event_id": "EV-000051",
+      "incident_id": "INC-000051",
+      "invoice_id": "INV-0000051",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "buried-exception",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0005",
+        "R_EMERGENCY"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0005",
+          "R_EMERGENCY"
+        ],
+        "decision": "approve",
+        "event_id": "EV-000051",
+        "limit_usd": 1000,
+        "reason": "Appendix Q replaces the city limit with the incident travel limit."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0005",
+        "R_EMERGENCY"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 400,
+      "category": "travel",
+      "city": "Harbor-0008",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-09659",
+      "event_id": "EV-000052",
+      "invoice_id": "INV-0000052",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "lookup-dependent",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0008"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0008"
+        ],
+        "decision": "approve",
+        "event_id": "EV-000052",
+        "limit_usd": 400,
+        "reason": "Compare the claim with the exact city lookup row."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0008"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 200,
+      "category": "travel",
+      "city": "Unlisted Harbor",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-09469",
+      "event_id": "EV-000053",
+      "invoice_id": "INV-0000053",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "ambiguous-abstain",
+      "critical_rules": [
+        "R_ABSTAIN"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_ABSTAIN"
+        ],
+        "decision": "abstain",
+        "event_id": "EV-000053",
+        "limit_usd": null,
+        "reason": "Evidence is missing or conflicting; do not guess."
+      },
+      "required_source_ids": [
+        "R_ABSTAIN"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 321,
+      "category": "travel",
+      "city": "Harbor-0002",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-03907",
+      "event_id": "EV-000054",
+      "invoice_id": "INV-0000054",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "normal",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0002"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0002"
+        ],
+        "decision": "approve",
+        "event_id": "EV-000054",
+        "limit_usd": 400,
+        "reason": "Within the city limit."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0002"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 151,
+      "category": "travel",
+      "city": "Harbor-0014",
+      "currency": "USD",
+      "department": "FIELD",
+      "emergency": false,
+      "employee_id": "EMP-01401",
+      "event_id": "EV-000055",
+      "invoice_id": "INV-0000055",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "cross-section",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0014",
+        "R_DEPARTMENT"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0014",
+          "R_DEPARTMENT"
+        ],
+        "decision": "reject",
+        "event_id": "EV-000055",
+        "limit_usd": 150,
+        "reason": "Apply the department cap from section 9 to section 1 eligibility."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0014",
+        "R_DEPARTMENT"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 250,
+      "category": "travel",
+      "city": "Harbor-0011",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-06372",
+      "event_id": "EV-000056",
+      "invoice_id": "INV-0000056",
+      "vendor_status": "restricted"
+    },
+    "ground_truth": {
+      "case": "cross-document",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0011",
+        "R_VENDOR"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0011",
+          "R_VENDOR"
+        ],
+        "decision": "reject",
+        "event_id": "EV-000056",
+        "limit_usd": 250,
+        "reason": "Vendor control overrides monetary eligibility."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0011",
+        "R_VENDOR"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 1001,
+      "category": "travel",
+      "city": "Harbor-0022",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": true,
+      "employee_id": "EMP-04905",
+      "event_id": "EV-000057",
+      "incident_id": "INC-000057",
+      "invoice_id": "INV-0000057",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "buried-exception",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0022",
+        "R_EMERGENCY"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0022",
+          "R_EMERGENCY"
+        ],
+        "decision": "reject",
+        "event_id": "EV-000057",
+        "limit_usd": 1000,
+        "reason": "Appendix Q replaces the city limit with the incident travel limit."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0022",
+        "R_EMERGENCY"
+      ]
+    }
+  },
+  {
+    "event": {
+      "amount_usd": 301,
+      "category": "travel",
+      "city": "Harbor-0023",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-07902",
+      "event_id": "EV-000058",
+      "invoice_id": "INV-0000058",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "lookup-dependent",
+      "critical_rules": [
+        "R_BASE",
+        "L_CITY_0023"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_BASE",
+          "L_CITY_0023"
+        ],
+        "decision": "reject",
+        "event_id": "EV-000058",
+        "limit_usd": 300,
+        "reason": "Compare the claim with the exact city lookup row."
+      },
+      "required_source_ids": [
+        "R_BASE",
+        "L_CITY_0023"
+      ]
+    }
+  },
+  {
+    "event": {
+      "category": "travel",
+      "city": "Harbor-0001",
+      "currency": "USD",
+      "department": "OFFICE",
+      "emergency": false,
+      "employee_id": "EMP-05556",
+      "event_id": "EV-000059",
+      "invoice_id": "INV-0000059",
+      "vendor_status": "clear"
+    },
+    "ground_truth": {
+      "case": "ambiguous-abstain",
+      "critical_rules": [
+        "R_ABSTAIN"
+      ],
+      "output": {
+        "applied_rules": [
+          "R_ABSTAIN"
+        ],
+        "decision": "abstain",
+        "event_id": "EV-000059",
+        "limit_usd": null,
+        "reason": "Evidence is missing or conflicting; do not guess."
+      },
+      "required_source_ids": [
+        "R_ABSTAIN"
+      ]
+    }
+  }
+]

@@ -1,0 +1,21 @@
+{
+  "config": {
+    "events": 60,
+    "lookup_rows": 24,
+    "reference_sections": 80,
+    "seed": 1729
+  },
+  "sha256": {
+    "documents/controls.md": "cce27afea7e410345b7fd40ed113cd8886aad87ab715781abe83c3b4475e4efb",
+    "documents/exceptions.md": "75f3cca93e876cd63b73e9fb39fde921ab849d1e1eb74bb46e417a2b434f26ff",
+    "documents/lookup.md": "4821b1a5d8cb327614e65f407eb941cd12019449fe176259f9060a5b8a962fe3",
+    "documents/policy.md": "257c631e464fb0645a8c90843e6bb76a3a805f3153aefa16e5ddceeb71b67166",
+    "events.json": "e2e665ec197d90ed6fd8b1a9564a950fabdf47a159ba8179067467892d05ea36",
+    "expected.json": "ccf2cc7a99f2a260a6f53789f7e58c9f7c1c6cb2100ac2236068d41c9530eedc",
+    "lookup.json": "3c4bda0d4f4df9cb2804719837edf04880a840f5d9edb77beee03412de06736e",
+    "output.schema.json": "80d831615656bca68993ba7ccba6557585a98030546f55f4ff40f0b99a3ad378",
+    "records.json": "a299e2c660c3ea792cb42ae9d0b13c754af20dae2aa00488fede4d2196d4a624",
+    "sources.json": "fb31e82d883b58199dd88c0134124e2cf1d2d35a42c041469de917ad898c8908"
+  },
+  "version": 1
+}

@@ -1,0 +1,6 @@
+# Optional exact token count for the rendered prompt text, excluding chat framing.
+tokenizer:
+  method: huggingface
+  model: Qwen/Qwen2.5-7B-Instruct
+  revision: null # Pin the revision used by the serving model for benchmark runs.
+  local_files_only: true

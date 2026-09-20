@@ -1,0 +1,6 @@
+include .env.example
+recursive-include configs *.yaml *.json
+recursive-include data *.json *.md
+recursive-include scripts *.py
+recursive-include tests *.py
+recursive-include docs *.md

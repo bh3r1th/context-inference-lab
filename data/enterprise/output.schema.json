@@ -1,0 +1,51 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "applied_rules": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Applied Rules",
+      "type": "array"
+    },
+    "decision": {
+      "enum": [
+        "approve",
+        "reject",
+        "abstain"
+      ],
+      "title": "Decision",
+      "type": "string"
+    },
+    "event_id": {
+      "title": "Event Id",
+      "type": "string"
+    },
+    "limit_usd": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Limit Usd"
+    },
+    "reason": {
+      "minLength": 1,
+      "title": "Reason",
+      "type": "string"
+    }
+  },
+  "required": [
+    "event_id",
+    "decision",
+    "limit_usd",
+    "applied_rules",
+    "reason"
+  ],
+  "title": "Decision",
+  "type": "object"
+}

@@ -1,0 +1,13 @@
+# Run separately after restarting vLLM with --enable-prefix-caching.
+seed: 42
+dataset: ../data/synthetic
+output_dir: ../results
+strategies: [prefix_cached_full_context]
+concurrency: [1, 8, 32]
+repetitions: 10
+warmup_requests: 2
+server:
+  model_revision: REPLACE_WITH_MODEL_COMMIT
+  vllm_version: REPLACE_WITH_INSTALLED_VERSION
+  launch_command: REPLACE_WITH_EXACT_SERVER_COMMAND
+  prefix_caching: true

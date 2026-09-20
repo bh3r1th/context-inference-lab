@@ -1,0 +1,23 @@
+experiment_id: context-scaling
+seed: 1729
+dataset: ../results/context-scaling/2k
+output_dir: ../results/context-scaling-runs
+strategies: [full_context]
+concurrency: [1, 8, 32]
+repetitions: 10
+warmup_requests: 2
+context:
+  tokenizer:
+    method: regex
+server:
+  base_url: http://localhost:8000/v1
+  metrics_url: http://localhost:8000/metrics
+  model: Qwen/Qwen2.5-7B-Instruct
+  model_revision: REPLACE_WITH_MODEL_COMMIT
+  vllm_version: REPLACE_WITH_INSTALLED_VERSION
+  launch_command: REPLACE_WITH_EXACT_SERVER_COMMAND
+  prefix_caching: false
+  timeout_s: 120.0
+  max_tokens: 256
+  structured_output: true
+  structured_output_mode: vllm

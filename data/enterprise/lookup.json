@@ -1,0 +1,122 @@
+[
+  {
+    "city": "Harbor-0000",
+    "id": "L_CITY_0000",
+    "limit_usd": 200
+  },
+  {
+    "city": "Harbor-0001",
+    "id": "L_CITY_0001",
+    "limit_usd": 350
+  },
+  {
+    "city": "Harbor-0002",
+    "id": "L_CITY_0002",
+    "limit_usd": 400
+  },
+  {
+    "city": "Harbor-0003",
+    "id": "L_CITY_0003",
+    "limit_usd": 350
+  },
+  {
+    "city": "Harbor-0004",
+    "id": "L_CITY_0004",
+    "limit_usd": 250
+  },
+  {
+    "city": "Harbor-0005",
+    "id": "L_CITY_0005",
+    "limit_usd": 200
+  },
+  {
+    "city": "Harbor-0006",
+    "id": "L_CITY_0006",
+    "limit_usd": 250
+  },
+  {
+    "city": "Harbor-0007",
+    "id": "L_CITY_0007",
+    "limit_usd": 300
+  },
+  {
+    "city": "Harbor-0008",
+    "id": "L_CITY_0008",
+    "limit_usd": 400
+  },
+  {
+    "city": "Harbor-0009",
+    "id": "L_CITY_0009",
+    "limit_usd": 300
+  },
+  {
+    "city": "Harbor-0010",
+    "id": "L_CITY_0010",
+    "limit_usd": 300
+  },
+  {
+    "city": "Harbor-0011",
+    "id": "L_CITY_0011",
+    "limit_usd": 250
+  },
+  {
+    "city": "Harbor-0012",
+    "id": "L_CITY_0012",
+    "limit_usd": 250
+  },
+  {
+    "city": "Harbor-0013",
+    "id": "L_CITY_0013",
+    "limit_usd": 400
+  },
+  {
+    "city": "Harbor-0014",
+    "id": "L_CITY_0014",
+    "limit_usd": 350
+  },
+  {
+    "city": "Harbor-0015",
+    "id": "L_CITY_0015",
+    "limit_usd": 200
+  },
+  {
+    "city": "Harbor-0016",
+    "id": "L_CITY_0016",
+    "limit_usd": 400
+  },
+  {
+    "city": "Harbor-0017",
+    "id": "L_CITY_0017",
+    "limit_usd": 350
+  },
+  {
+    "city": "Harbor-0018",
+    "id": "L_CITY_0018",
+    "limit_usd": 300
+  },
+  {
+    "city": "Harbor-0019",
+    "id": "L_CITY_0019",
+    "limit_usd": 350
+  },
+  {
+    "city": "Harbor-0020",
+    "id": "L_CITY_0020",
+    "limit_usd": 300
+  },
+  {
+    "city": "Harbor-0021",
+    "id": "L_CITY_0021",
+    "limit_usd": 350
+  },
+  {
+    "city": "Harbor-0022",
+    "id": "L_CITY_0022",
+    "limit_usd": 400
+  },
+  {
+    "city": "Harbor-0023",
+    "id": "L_CITY_0023",
+    "limit_usd": 300
+  }
+]

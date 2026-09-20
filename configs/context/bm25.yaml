@@ -1,0 +1,9 @@
+retrieval:
+  method: bm25
+  top_k: 8
+  chunk_chars: 1200
+  overlap_chars: 120
+  bm25_k1: 1.5
+  bm25_b: 0.75
+tokenizer:
+  method: regex

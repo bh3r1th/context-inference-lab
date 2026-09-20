@@ -1,0 +1,83 @@
+{
+  "EV-000": {
+    "case": "normal",
+    "critical_rules": [
+      "R_BASE"
+    ],
+    "output": {
+      "event_id": "EV-000",
+      "decision": "approve",
+      "limit_usd": 200,
+      "applied_rules": [
+        "R_BASE",
+        "L_AUSTIN"
+      ],
+      "reason": "Synthetic reference answer."
+    }
+  },
+  "EV-001": {
+    "case": "cross-document",
+    "critical_rules": [
+      "R_RESTRICTED"
+    ],
+    "output": {
+      "event_id": "EV-001",
+      "decision": "reject",
+      "limit_usd": 300,
+      "applied_rules": [
+        "R_BASE",
+        "L_BOSTON",
+        "R_RESTRICTED"
+      ],
+      "reason": "Synthetic reference answer."
+    }
+  },
+  "EV-002": {
+    "case": "buried-exception",
+    "critical_rules": [
+      "R_MEDICAL"
+    ],
+    "output": {
+      "event_id": "EV-002",
+      "decision": "approve",
+      "limit_usd": 1000,
+      "applied_rules": [
+        "R_BASE",
+        "L_AUSTIN",
+        "R_MEDICAL"
+      ],
+      "reason": "Synthetic reference answer."
+    }
+  },
+  "EV-003": {
+    "case": "lookup-dependent",
+    "critical_rules": [
+      "L_SEATTLE"
+    ],
+    "output": {
+      "event_id": "EV-003",
+      "decision": "reject",
+      "limit_usd": 250,
+      "applied_rules": [
+        "R_BASE",
+        "L_SEATTLE"
+      ],
+      "reason": "Synthetic reference answer."
+    }
+  },
+  "EV-004": {
+    "case": "ambiguous-abstain",
+    "critical_rules": [
+      "R_UNKNOWN"
+    ],
+    "output": {
+      "event_id": "EV-004",
+      "decision": "abstain",
+      "limit_usd": null,
+      "applied_rules": [
+        "R_UNKNOWN"
+      ],
+      "reason": "Synthetic reference answer."
+    }
+  }
+}

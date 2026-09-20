@@ -1,0 +1,34 @@
+[
+  {
+    "event_id": "EV-000",
+    "category": "travel",
+    "city": "Austin",
+    "amount_usd": 150
+  },
+  {
+    "event_id": "EV-001",
+    "category": "travel",
+    "city": "Boston",
+    "amount_usd": 100,
+    "restricted_vendor": true
+  },
+  {
+    "event_id": "EV-002",
+    "category": "travel",
+    "city": "Austin",
+    "amount_usd": 800,
+    "medical_emergency": true
+  },
+  {
+    "event_id": "EV-003",
+    "category": "travel",
+    "city": "Seattle",
+    "amount_usd": 275
+  },
+  {
+    "event_id": "EV-004",
+    "category": "travel",
+    "city": "Unknown",
+    "amount_usd": 75
+  }
+]

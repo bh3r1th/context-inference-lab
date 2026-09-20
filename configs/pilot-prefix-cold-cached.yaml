@@ -1,0 +1,43 @@
+experiment_id: pilot-prefix-cold
+cache_scenario: cold
+seed: 42
+dataset: ../data/enterprise
+output_dir: ../results/pilot/prefix-cold
+strategies:
+- prefix_cached_full_context
+concurrency:
+- 1
+- 8
+repetitions: 1
+warmup_requests: 0
+event_ids:
+- EV-000000
+- EV-000001
+- EV-000002
+- EV-000003
+- EV-000004
+- EV-000005
+- EV-000006
+- EV-000007
+- EV-000008
+- EV-000009
+context:
+  tokenizer:
+    method: regex
+telemetry_interval_s: 0.5
+local_gpu_metrics: true
+server:
+  base_url: http://localhost:8000/v1
+  metrics_url: http://localhost:8000/metrics
+  model: Qwen/Qwen2.5-7B-Instruct
+  model_revision: a09a35458c702b33eeacc393d103063234e8bc28
+  vllm_version: 0.29.0
+  launch_command: vllm serve Qwen/Qwen2.5-7B-Instruct --revision a09a35458c702b33eeacc393d103063234e8bc28
+    --host 0.0.0.0 --port 8000 --dtype auto --gpu-memory-utilization 0.90 --max-model-len
+    72K --hf-overrides '{"rope_parameters":{"rope_type":"yarn","factor":4.0,"original_max_position_embeddings":32768,"rope_theta":1000000.0}}'
+    --generation-config vllm --enable-prefix-caching
+  prefix_caching: true
+  timeout_s: 120.0
+  max_tokens: 256
+  structured_output: true
+  structured_output_mode: vllm

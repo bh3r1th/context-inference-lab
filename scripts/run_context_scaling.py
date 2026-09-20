@@ -11,11 +11,11 @@ from contextbench.experiments.orchestrator import run
 from generate_scaling_workloads import TARGETS, generate
 
 
-async def execute(config_path: Path, source: Path, output: Path):
-    return await execute_sizes(config_path, source, output, TARGETS)
+async def execute(config_path: Path, source: Path, output: Path, phase="all"):
+    return await execute_sizes(config_path, source, output, TARGETS, phase=phase)
 
 
-async def execute_sizes(config_path: Path, source: Path, output: Path, sizes):
+async def execute_sizes(config_path: Path, source: Path, output: Path, sizes, phase="all"):
     run_paths = []
     generate(source, output / "template")
     base = yaml.safe_load(config_path.read_text(encoding="utf-8"))
@@ -27,6 +27,7 @@ async def execute_sizes(config_path: Path, source: Path, output: Path, sizes):
         values["experiment_id"] = f"context-scaling-{label}"
         values["dataset"] = str((output / label).resolve())
         values["output_dir"] = str((output / "runs").resolve())
+        values["phase"] = phase
         run_paths.append(await run(ExperimentConfig.model_validate(values)))
     return run_paths
 

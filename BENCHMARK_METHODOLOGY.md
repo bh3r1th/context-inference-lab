@@ -70,3 +70,24 @@ guarantee bitwise-identical GPU behavior across concurrency. Server scheduling, 
 cache state, network conditions, endpoint ordering, and model implementation can confound results.
 Minimum Safe Context is the smallest observed configuration meeting the selected quality constraints;
 it is not a proof of safety outside this dataset and configuration.
+
+## Single-GPU sequential workflow
+
+On a single GPU, run the pilot and full benchmark in two phases so only one vLLM server occupies
+VRAM at a time:
+
+```bash
+python scripts/run_pilot.py --phase uncached
+python scripts/run_pilot.py --phase cached
+python scripts/validate_pilot.py results/pilot/enterprise/uncached \
+	results/pilot/enterprise/cached results/pilot/context-scaling/uncached/runs \
+	results/pilot/prefix/cached/pilot-prefix-cold \
+	results/pilot/prefix/cached/pilot-prefix-warm --required-phases uncached,cached
+python scripts/run_full_benchmark.py --phase uncached
+python scripts/run_full_benchmark.py --phase cached
+```
+
+Both explicit phases map their selected server to `localhost:8000`; `uncached` selects the three
+non-cache strategies and scaling, while `cached` selects prefix-cached full context and its cold/warm
+experiments. The default `--phase all` preserves the original two-endpoint behavior. Split results
+are merged by the existing recursive analysis/report tooling and the full-run manifest.

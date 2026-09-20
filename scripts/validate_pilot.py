@@ -98,18 +98,26 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("roots", nargs="+", type=Path)
     parser.add_argument("--output", type=Path, default=Path("results/pilot/PILOT_VALIDATION.md"))
+    parser.add_argument("--required-phases", default="uncached,cached")
     args = parser.parse_args()
     issues, observations = [], []
+    found_phases = set()
     for root in args.roots:
         if not root.exists():
             issues.append(f"missing pilot artifact root: {root}")
             continue
         for run_root in ([root] if (root / "metadata.json").exists() else
                          sorted(root.glob("*/metadata.json"))):
-            validate_run(run_root.parent if run_root.name == "metadata.json" else run_root,
-                         issues, observations)
+            run_path = run_root.parent if run_root.name == "metadata.json" else run_root
+            validate_run(run_path, issues, observations)
+            metadata = read_json(run_path / "metadata.json")
+            if metadata.get("status") == "completed":
+                found_phases.add(metadata.get("phase"))
     if not issues and not observations:
         issues.append("no pilot run artifacts found")
+    required_phases = {phase for phase in args.required_phases.split(",") if phase}
+    if not required_phases <= found_phases:
+        issues.append(f"missing required completed phases: {sorted(required_phases - found_phases)}")
     status = "PASS" if not issues else "BLOCKED" if any("missing" in i for i in issues) else "FAIL"
     args.output.parent.mkdir(parents=True, exist_ok=True)
     lines = ["# Pilot Validation", "", f"**Status: {status}**", "", "## Checks", "",

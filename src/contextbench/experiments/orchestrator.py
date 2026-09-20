@@ -7,6 +7,7 @@ import json
 import platform
 import random
 import shutil
+import subprocess
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
@@ -107,6 +108,8 @@ async def run(config: ExperimentConfig) -> Path:
                 "dataset_sha256": hashes, "client_source_sha256": source_hashes,
                 "started_at": utc_now(), "completed_at": None, "status": "running",
                 "model": config.server.model, "model_revision": config.server.model_revision,
+                "prefix_caching": config.server.prefix_caching,
+                "launch_command": config.server.launch_command,
                 "vllm_version_declared": config.server.vllm_version,
                 "vllm_version_source": "operator-declared configuration",
                 "vllm_version_observed": unavailable("server /version", "not yet discovered", "server"),
@@ -116,6 +119,7 @@ async def run(config: ExperimentConfig) -> Path:
                                                  "max_tokens": config.server.max_tokens,
                                                  "structured_output": config.server.structured_output,
                                                  "structured_output_mode": config.server.structured_output_mode},
+                "phase": config.phase,
                 "cache_scenario": config.cache_scenario,
                 "prefix_cache_contract": {
                     "static_prefix": "system message: instructions plus documents",
@@ -128,6 +132,11 @@ async def run(config: ExperimentConfig) -> Path:
                 "server_configuration_source": "operator-declared; verify against server launch logs",
                 "servers": {}, "error_count": 0,
                 "planned_cells": len(config.strategies) * len(config.concurrency)}
+    try:
+        metadata["git_sha"] = subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], text=True, cwd=source_root.parent.parent).strip()
+    except (OSError, subprocess.CalledProcessError):
+        metadata["git_sha"] = None
     write_json(output / "metadata.json", metadata)
     write_json(output / "output.schema.json", Decision.model_json_schema())
     workload, plan = build_workload(events, config.repetitions, config.seed)

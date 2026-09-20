@@ -39,6 +39,7 @@ class ExperimentConfig(StrictModel):
     telemetry_interval_s: float = Field(default=1.0, gt=0, allow_inf_nan=False)
     local_gpu_metrics: bool = False
     cache_scenario: Literal["cold", "warm"] | None = None
+    phase: Literal["uncached", "cached", "all"] = "all"
     event_ids: list[str] | None = Field(default=None, min_length=1)
     server: Server
     strategy_servers: dict[StrategyName, Server] = Field(default_factory=dict)

@@ -12,26 +12,46 @@ from run_context_scaling import execute_sizes
 
 
 async def execute(args):
-    if args.phase == "all":
-        for config_path in (args.enterprise, args.prefix_cold, args.prefix_warm):
-            await run(load_config(config_path))
-        await execute_sizes(args.scaling, args.source, args.scaling_output,
-                            ("2k", "8k", "32k"))
-        return
     phases = ("uncached", "cached") if args.phase == "all" else (args.phase,)
+
     for phase in phases:
         if phase == "uncached":
-            await run(phase_config(args.enterprise, phase,
-                                    Path(args.enterprise_output) / phase))
-            await execute_sizes(args.scaling, args.source,
-                                args.scaling_output, ("2k", "8k", "32k"), phase=phase,
-                                run_output=args.scaling_output / phase / "runs")
+            await run(
+                phase_config(
+                    args.enterprise,
+                    phase,
+                    Path(args.enterprise_output) / phase,
+                )
+            )
+
+            await execute_sizes(
+                args.scaling,
+                args.source,
+                args.scaling_output,
+                ("2k", "8k", "32k"),
+                phase=phase,
+                run_output=args.scaling_output / phase / "runs",
+            )
+
         else:
-            await run(phase_config(args.enterprise, phase,
-                                    Path(args.enterprise_output) / phase))
+            await run(
+                phase_config(
+                    args.enterprise,
+                    phase,
+                    Path(args.enterprise_output) / phase,
+                )
+            )
+
             for config_path in (args.prefix_cold, args.prefix_warm):
-                await run(phase_config(config_path, phase,
-                                       args.prefix_output / phase / config_path.stem))
+                cfg = load_config(config_path)
+
+                await run(
+                    phase_config(
+                        config_path,
+                        phase,
+                        Path(cfg.output_dir) / phase,
+                    )
+                )
 
 
 def main():

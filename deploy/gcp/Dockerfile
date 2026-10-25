@@ -17,8 +17,8 @@ COPY scripts/ ./scripts/
 COPY configs/ ./configs/
 COPY data/ ./data/
 COPY deploy/gcp/ ./deploy/gcp/
-RUN python3 -m pip install 'google-cloud-storage==3.4.1' -e . \
-    && python3 -m pip check \
+RUN python3 -m pip install 'google-cloud-storage>=3.4.1,<4' -e . \
+    && python3 deploy/gcp/check_dependencies.py \
     && python3 deploy/gcp/make_plan.py --stage pilot --output deploy/gcp/pilot-plan.json
 
 ENTRYPOINT ["python3", "-m", "deploy.gcp.task"]

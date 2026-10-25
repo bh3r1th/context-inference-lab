@@ -214,6 +214,19 @@ def wait_workload(process, server, control: Control, tick) -> int:
     return process.returncode
 
 
+def wait_probe(process, control: Control, tick, timeout: float):
+    deadline = time.monotonic() + timeout
+    while process.poll() is None:
+        control.check()
+        if time.monotonic() >= deadline:
+            raise TaskFailure("GPU preflight exceeded its startup deadline")
+        tick()
+        control.stopped.wait(1)
+    control.check()
+    if process.returncode:
+        raise TaskFailure(f"GPU preflight failed (exit {process.returncode}); see gpu-preflight.log")
+
+
 def verify_results(config: ExperimentConfig, *, require_correct: bool):
     roots = list(Path(config.output_dir).glob("*/metadata.json"))
     if len(roots) != 1:
@@ -240,8 +253,9 @@ def verify_results(config: ExperimentConfig, *, require_correct: bool):
 
 
 def execute(entry: dict, config: ExperimentConfig, output: Path, root: Path,
-            store, control: Control, *, ready_timeout=900, upload_interval=30) -> int:
-    server = workload = None
+            store, control: Control, *, ready_timeout=900, upload_interval=30,
+            probe_timeout=120) -> int:
+    probe = server = workload = None
     logs = []
     result = {"cell": entry["id"], "status": "running"}
     last_upload = -math.inf
@@ -264,11 +278,18 @@ def execute(entry: dict, config: ExperimentConfig, output: Path, root: Path,
         control.check()
         store.probe()  # Fail before GPU/model initialization if bucket access is unavailable.
         tick()
+        probe_log = (output / "gpu-preflight.log").open("wb")
+        logs.append(probe_log)
+        probe = subprocess.Popen([sys.executable, "-m", "deploy.gcp.gpu_probe"], cwd=root,
+                                 stdout=probe_log, stderr=subprocess.STDOUT, start_new_session=True)
+        wait_probe(probe, control, tick, probe_timeout)
+        print("GPU preflight passed; starting vLLM.", flush=True)
         server_log = (output / "vllm.log").open("wb")
         logs.append(server_log)
         server = subprocess.Popen(shlex.split(config.server.launch_command), cwd=root,
                                   stdout=server_log, stderr=subprocess.STDOUT, start_new_session=True)
         wait_ready(server, config, control, tick, ready_timeout)
+        print("vLLM is ready; running the selected benchmark cell.", flush=True)
         control.check()
         benchmark_log = (output / "benchmark.log").open("wb")
         logs.append(benchmark_log)
@@ -286,12 +307,13 @@ def execute(entry: dict, config: ExperimentConfig, output: Path, root: Path,
     finally:
         terminate(workload)
         terminate(server)
+        terminate(probe)
         for log in logs:
             log.close()
         if control.stopped.is_set():
             result.update(status="failed", error="Task interrupted by shutdown signal")
         if result["status"] != "completed":
-            for name in ("vllm.log", "benchmark.log"):
+            for name in ("gpu-preflight.log", "vllm.log", "benchmark.log"):
                 path = output / name
                 if path.exists():
                     # Keep failure diagnostics in Cloud Logging as well as GCS.
@@ -319,6 +341,8 @@ def execute(entry: dict, config: ExperimentConfig, output: Path, root: Path,
             except Exception:  # noqa: BLE001 - preserve the original failure and deadline.
                 print("Could not update remote task status after the upload failure.",
                       file=sys.stderr, flush=True)
+    if result["status"] == "completed":
+        print("Task completed; verified artifacts uploaded.", flush=True)
     return 0 if result["status"] == "completed" else 1
 
 

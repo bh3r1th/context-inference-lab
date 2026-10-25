@@ -6,29 +6,48 @@ import pytest
 
 from deploy.gcp import check_dependencies as check
 
-# Preserve the actual Cloud Build regression independently of the checker constant.
+# Match the CUDA 12.9 wheel metadata and official image override independently.
 BUILD_DIAGNOSTIC = (
-    'torch 2.13.0+cu130 has requirement nvidia-nccl-cu13==2.29.7; '
-    'platform_system == "Linux", but you have nvidia-nccl-cu13 2.30.7.\n'
+    'torch 2.13.0+cu129 has requirement nvidia-nccl-cu12==2.29.7; '
+    'platform_system == "Linux", but you have nvidia-nccl-cu12 2.30.7.\n'
 )
-VERSIONS = {"torch": "2.13.0+cu130", "nvidia-nccl-cu13": "2.30.7", "vllm": "0.29.0"}
-PIN = "nvidia-nccl-cu13==2.30.7\n"
+VERSIONS = {"torch": "2.13.0+cu129", "nvidia-nccl-cu12": "2.30.7", "vllm": "0.29.0"}
+PIN = "nvidia-nccl-cu12==2.30.7\n"
 
 
 def test_normal_healthy_environment_needs_no_exception():
     assert check.validate_pip_check(0, "No broken requirements found.\n", "") is False
 
 
-def test_actual_build_conflict_requires_vendor_proof():
+def test_cuda12_vendor_conflict_requires_proof():
     assert check.validate_pip_check(1, BUILD_DIAGNOSTIC, "", VERSIONS, PIN) is True
+
+
+@pytest.mark.parametrize("returncode", [0, 1])
+def test_cuda13_profile_is_not_accepted_for_cuda12_target(returncode):
+    old_diagnostic = (
+        'torch 2.13.0+cu130 has requirement nvidia-nccl-cu13==2.29.7; '
+        'platform_system == "Linux", but you have nvidia-nccl-cu13 2.30.7.\n'
+    )
+    old_versions = {"torch": "2.13.0+cu130", "nvidia-nccl-cu13": "2.30.7", "vllm": "0.29.0"}
+    old_pin = "nvidia-nccl-cu13==2.30.7\n"
+    output = "No broken requirements found.\n" if returncode == 0 else old_diagnostic
+    with pytest.raises(check.DependencyValidationError):
+        check.validate_pip_check(returncode, output, "", old_versions, old_pin)
+
+
+def test_cuda13_vendor_pin_cannot_be_combined_with_cuda12_pin():
+    with pytest.raises(check.DependencyValidationError, match="override pin"):
+        check.validate_pip_check(1, BUILD_DIAGNOSTIC, "", VERSIONS,
+                                 PIN + "nvidia-nccl-cu13==2.30.7\n")
 
 
 @pytest.mark.parametrize("diagnostic", [
     BUILD_DIAGNOSTIC + "contextbench 0.1.0 requires httpx, which is not installed.\n",
     "contextbench 0.1.0 requires httpx, which is not installed.\n",
-    BUILD_DIAGNOSTIC.replace("but you have nvidia-nccl-cu13 2.30.7",
-                             "but you have nvidia-nccl-cu13 2.31.0"),
-    BUILD_DIAGNOSTIC.replace("nvidia-nccl-cu13==2.29.7;", "nvidia-nccl-cu13==2.28.0;"),
+    BUILD_DIAGNOSTIC.replace("but you have nvidia-nccl-cu12 2.30.7",
+                             "but you have nvidia-nccl-cu12 2.31.0"),
+    BUILD_DIAGNOSTIC.replace("nvidia-nccl-cu12==2.29.7;", "nvidia-nccl-cu12==2.28.0;"),
     "",
 ])
 def test_other_or_additional_conflicts_are_never_hidden(diagnostic):
@@ -37,7 +56,7 @@ def test_other_or_additional_conflicts_are_never_hidden(diagnostic):
 
 
 @pytest.mark.parametrize("name,version", [
-    ("torch", "2.12.0+cu130"), ("nvidia-nccl-cu13", "2.29.7"), ("vllm", "0.30.0"),
+    ("torch", "2.12.0+cu129"), ("nvidia-nccl-cu12", "2.29.7"), ("vllm", "0.30.0"),
     ("vllm", None),
 ])
 def test_changed_or_missing_package_versions_reject_the_exception(name, version):
@@ -50,8 +69,8 @@ def test_changed_or_missing_package_versions_reject_the_exception(name, version)
         check.validate_pip_check(1, BUILD_DIAGNOSTIC, "", versions, PIN)
 
 
-@pytest.mark.parametrize("override", [None, "", "nvidia-nccl-cu13==2.29.7\n",
-                                      PIN + "nvidia-nccl-cu13==2.29.7\n"])
+@pytest.mark.parametrize("override", [None, "", "nvidia-nccl-cu12==2.29.7\n",
+                                      PIN + "nvidia-nccl-cu12==2.29.7\n"])
 def test_missing_or_contradictory_vendor_pin_rejects_the_exception(override):
     with pytest.raises(check.DependencyValidationError, match="override pin"):
         check.validate_pip_check(1, BUILD_DIAGNOSTIC, "", VERSIONS, override)
@@ -112,7 +131,7 @@ def test_entrypoint_enforces_vendor_stack_even_when_pip_check_reports_healthy(
     mock_pip(monkeypatch, returncode=0, stdout="No broken requirements found.\n")
     override = tmp_path / "uv-overrides.txt"
     override.write_text(PIN)
-    versions = {**VERSIONS, "nvidia-nccl-cu13": nccl}
+    versions = {**VERSIONS, "nvidia-nccl-cu12": nccl}
     monkeypatch.setattr(check, "OVERRIDE_PATH", override)
     monkeypatch.setattr(check.importlib.metadata, "version", lambda name: versions[name])
     assert check.main() == expected_status

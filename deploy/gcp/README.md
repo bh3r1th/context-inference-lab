@@ -21,16 +21,18 @@ a job configuration alone does not verify these.
 
 ## What is prepared
 
-The image uses the official vLLM **0.29.0** Linux/amd64 image, pinned to an inspected
-manifest digest. This matches the checked-in serving metadata and the client's
+The image uses the official vLLM **0.29.0-cu129** Linux/amd64 image, pinned to an
+inspected manifest digest. Its serving version remains **0.29.0**, matching the client's
 `structured_outputs.json` API. It does not install the legacy requirements that
-pin vLLM 0.8.5. The base uses CUDA 13.0.3; its documented CUDA forward-compatibility
-option is enabled for the L4's managed driver. Actual driver compatibility still
-requires the GPU smoke execution. The build uploads an explicit context excluding environment files,
+pin vLLM 0.8.5. The base uses **CUDA 12.9.1**, with native host driver libraries by
+default (`VLLM_ENABLE_CUDA_COMPATIBILITY=0`). The previous CUDA 13 image with forced
+compatibility libraries failed GPU initialization with error 803 on this job.
+Actual driver compatibility still requires the GPU smoke execution. The build
+uploads an explicit context excluding environment files,
 credentials, Git metadata, virtual environments, and old results.
 
 The pinned upstream image deliberately installs NCCL 2.30.7 for DeepEPv2 while
-PyTorch 2.13.0+cu130's package metadata requests 2.29.7. The upstream override is
+PyTorch 2.13.0+cu129's metadata requests 2.29.7 for `nvidia-nccl-cu12`. The override is
 [documented in vLLM's Dockerfile](https://github.com/vllm-project/vllm/blob/v0.29.0/docker/Dockerfile#L854).
 `check_dependencies.py` runs `pip check` and permits only that exact conflict,
 after verifying the installed vLLM/Torch/NCCL versions and the upstream override
@@ -40,7 +42,7 @@ does not claim ordinary `pip check` passed. The compatible Cloud Storage SDK
 already present in the base is retained instead of unnecessarily downgraded.
 
 The launcher selects one complete experiment cell using `CLOUD_RUN_TASK_INDEX`.
-It checks bucket write access, starts one local vLLM server, waits for the exact
+It checks bucket write access, runs a GPU preflight, starts one local vLLM server, waits for the exact
 model, executes the existing benchmark runner, checks current-run artifacts, and
 uploads partial/final outputs. A new server starts for every task. Cold-cache
 cells therefore start with an empty cache; warm cells retain their configured
@@ -52,6 +54,21 @@ output cap, and request seeds are preserved. An L4 memory failure is reported;
 the launcher does not silently shrink the experiment or quantize the model.
 Model weights download to `/tmp/huggingface`, whose storage consumes host RAM on
 Cloud Run. The 32 GiB allocation needs validation during model loading.
+
+Before model loading, a separate process records `nvidia-smi` GPU/driver/memory
+details, the Torch CUDA build, and compatibility settings in `gpu-preflight.log`.
+It initializes CUDA and checks a small tensor operation. A failure or its
+120-second deadline stops the task before model startup. The probe uses the same
+vLLM environment initialization as the server. Enabling forward-compatibility
+libraries is an explicit runtime choice, not an automatic retry or driver
+upgrade; first inspect the actual driver and probe output. Cloud Run's host
+driver cannot be upgraded from this container.
+
+`deploy.sh` explicitly selects native libraries by default, including when
+updating a job with old environment overrides. A supported forward-compatibility
+test can be selected by setting `VLLM_ENABLE_CUDA_COMPATIBILITY=1` when invoking
+`deploy.sh`, after reviewing the driver diagnostics. That mode is probed too;
+the launcher never suppresses a CUDA initialization failure.
 
 The smoke plan contains **one request**. The pilot plan contains **18 tasks and
 180 measured requests**, excluding warmups. Increasing task count without matching
@@ -111,7 +128,7 @@ Inspect execution status in Cloud Run and its task logs. Artifact prefixes are:
 gs://context-inference-lab/cloud-run/EXECUTION/task-INDEX-CELL/attempt-ATTEMPT-UUID/
 ```
 
-Each attempt preserves its own config, vLLM and benchmark logs, task status,
+Each attempt preserves its own config, GPU preflight, vLLM and benchmark logs, task status,
 dataset snapshots, raw request/telemetry files, and available summaries. Only a
 verified successful run receives `complete.json`. Smoke success requires the
 checked-in event's expected answer from the actual model, not merely a listening port.

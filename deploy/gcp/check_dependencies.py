@@ -2,7 +2,7 @@
 
 vLLM 0.29.0 intentionally replaces torch's older NCCL pin for DeepEPv2:
 https://github.com/vllm-project/vllm/blob/v0.29.0/docker/Dockerfile#L854
-The exception is valid only for the observed versions and vendor override file.
+The exception is valid only for the CUDA 12.9 profile and vendor override file.
 Every other pip-check failure remains fatal; CUDA runtime checks belong to the
 real GPU smoke task, not to this metadata audit.
 """
@@ -14,15 +14,15 @@ from collections.abc import Mapping
 from pathlib import Path
 
 EXPECTED_CONFLICT = (
-    'torch 2.13.0+cu130 has requirement nvidia-nccl-cu13==2.29.7; '
-    'platform_system == "Linux", but you have nvidia-nccl-cu13 2.30.7.'
+    'torch 2.13.0+cu129 has requirement nvidia-nccl-cu12==2.29.7; '
+    'platform_system == "Linux", but you have nvidia-nccl-cu12 2.30.7.'
 )
 EXPECTED_VERSIONS = {
-    "torch": "2.13.0+cu130",
-    "nvidia-nccl-cu13": "2.30.7",
+    "torch": "2.13.0+cu129",
+    "nvidia-nccl-cu12": "2.30.7",
     "vllm": "0.29.0",
 }
-OVERRIDE_PIN = "nvidia-nccl-cu13==2.30.7"
+OVERRIDE_PIN = "nvidia-nccl-cu12==2.30.7"
 OVERRIDE_PATH = Path("/etc/uv-overrides.txt")
 
 
@@ -36,7 +36,7 @@ def validate_vendor_override(versions: Mapping[str, str] | None,
                                for name, version in EXPECTED_VERSIONS.items()):
         raise DependencyValidationError("Installed versions do not match the documented override")
     pins = [line.split("#", 1)[0].strip() for line in (override_text or "").splitlines()]
-    nccl_pins = [line for line in pins if line.startswith("nvidia-nccl-cu13")]
+    nccl_pins = [line for line in pins if line.startswith("nvidia-nccl-cu")]
     if nccl_pins != [OVERRIDE_PIN]:
         raise DependencyValidationError("The upstream NCCL override pin is missing or changed")
 

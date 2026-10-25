@@ -1,12 +1,12 @@
 # Separate from the legacy GPU image; keep the serving API aligned with the configs.
-# Official v0.29.0 linux/amd64 manifest, inspected during deployment preparation.
-ARG VLLM_BASE_IMAGE=vllm/vllm-openai:v0.29.0@sha256:082ca6f035279109041ffd3fe0695cb568b29bc580b35c4f297a66a08b216c1b
+# Official CUDA 12.9 linux/amd64 variant; avoid the default CUDA 13 image.
+ARG VLLM_BASE_IMAGE=vllm/vllm-openai:v0.29.0-cu129@sha256:3e10e8189823e0f7ae4620c271bcdaaf64127ec7d0edc351591a508498b7684a
 FROM ${VLLM_BASE_IMAGE}
 
 WORKDIR /app
 ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 \
     HF_HOME=/tmp/huggingface \
-    VLLM_ENABLE_CUDA_COMPATIBILITY=1 \
+    VLLM_ENABLE_CUDA_COMPATIBILITY=0 \
     RESULTS_BUCKET=context-inference-lab RESULTS_PREFIX=cloud-run \
     TASK_PLAN=/app/deploy/gcp/smoke-plan.json
 

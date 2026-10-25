@@ -145,15 +145,21 @@ class Store:
             self.markers.append((name, dict(result)))
 
 
-def fake_children(monkeypatch, config, *, benchmark_exit=0, ready_error=None):
+def fake_children(monkeypatch, config, *, benchmark_exit=0, ready_error=None, probe_exit=0):
     children, terminated = [], []
 
     def popen(command, **kwargs):
         assert kwargs["start_new_session"] is True
-        child = FakeProcess(None if not children else benchmark_exit)
-        children.append(child)
-        if len(children) == 2:
+        if command[1:] == ["-m", "deploy.gcp.gpu_probe"]:
+            child = FakeProcess(probe_exit)
+        elif command[0] == "vllm":
+            child = FakeProcess(None)
+        else:
+            assert "scripts/run_benchmark.py" in command
+            child = FakeProcess(benchmark_exit)
             artifacts(config)
+        child.command = command
+        children.append(child)
         return child
 
     def ready(*_):
@@ -170,16 +176,17 @@ def test_success_marks_complete_only_after_final_artifacts_upload(monkeypatch, c
     children, terminated = fake_children(monkeypatch, config)
     store = Store()
     assert task.execute(SMOKE, config, tmp_path, ROOT, store, task.Control(5)) == 0
-    assert len(children) == 2 and terminated == [children[1], children[0]]
+    assert len(children) == 3 and terminated == [children[2], children[1], children[0]]
     assert store.synced[-1]["status"] == "completed"
     assert store.markers[0][0] == "complete.json"
 
 
-@pytest.mark.parametrize("failure", ["benchmark", "readiness", "final_upload", "bucket"])
+@pytest.mark.parametrize("failure", ["benchmark", "readiness", "final_upload", "bucket", "gpu"])
 def test_failure_preserves_status_and_never_marks_complete(monkeypatch, config, tmp_path, failure):
     children, terminated = fake_children(
         monkeypatch, config, benchmark_exit=7 if failure == "benchmark" else 0,
-        ready_error=task.TaskFailure("startup failed") if failure == "readiness" else None)
+        ready_error=task.TaskFailure("startup failed") if failure == "readiness" else None,
+        probe_exit=1 if failure == "gpu" else 0)
     store = Store(deny_probe=failure == "bucket", fail_sync_at=2 if failure == "final_upload" else 0)
     assert task.execute(SMOKE, config, tmp_path, ROOT, store, task.Control(5)) == 1
     assert json.loads((tmp_path / "task-status.json").read_text())["status"] == "failed"
@@ -188,13 +195,18 @@ def test_failure_preserves_status_and_never_marks_complete(monkeypatch, config, 
         assert children == []
     else:
         assert children[0] in terminated
+    if failure == "gpu":
+        assert len(children) == 1 and "deploy.gcp.gpu_probe" in children[0].command
+        assert (tmp_path / "gpu-preflight.log").exists()
+        assert not (tmp_path / "vllm.log").exists()
     if failure == "final_upload":
         assert store.status_updates[-1]["status"] == "failed"
 
 
 @pytest.mark.parametrize("interruption", ["deadline", "signal"])
+@pytest.mark.parametrize("stage", ["probe", "readiness"])
 def test_interruption_uploads_partial_artifacts_and_terminates_children(
-        monkeypatch, config, tmp_path, interruption):
+        monkeypatch, config, tmp_path, interruption, stage):
     children, terminated = fake_children(monkeypatch, config)
     control = task.Control(5)
 
@@ -205,12 +217,21 @@ def test_interruption_uploads_partial_artifacts_and_terminates_children(
             control.deadline = 0
         control.check()
 
-    monkeypatch.setattr(task, "wait_ready", interrupt)
+    monkeypatch.setattr(task, "wait_probe" if stage == "probe" else "wait_ready", interrupt)
     store = Store()
     assert task.execute(SMOKE, config, tmp_path, ROOT, store, control) == 1
-    assert children[0] in terminated and len(children) == 1
+    assert children[0] in terminated and len(children) == (1 if stage == "probe" else 2)
     assert store.synced[-1]["status"] == "failed"
     assert store.markers == []
+
+
+def test_gpu_probe_timeout_stops_before_model_start(monkeypatch, config, tmp_path):
+    children, terminated = fake_children(monkeypatch, config, probe_exit=None)
+    store = Store()
+    assert task.execute(SMOKE, config, tmp_path, ROOT, store, task.Control(5), probe_timeout=0) == 1
+    assert len(children) == 1 and children[0] in terminated
+    assert store.markers == []
+    assert "GPU preflight exceeded" in store.synced[-1]["error"]
 
 
 def test_terminate_targets_only_child_process_group_and_escalates(monkeypatch):

@@ -75,6 +75,29 @@ def test_cell_preserves_smoke_workload_and_checks_version(config, tmp_path):
         task.cell_config({**SMOKE, "concurrency": 32}, ROOT, tmp_path, "0.29.0")
 
 
+def test_official_cuda_build_preserves_workload_and_records_full_version(config, tmp_path):
+    from deploy.gcp.check_dependencies import EXPECTED_VERSIONS
+
+    actual_version = EXPECTED_VERSIONS["vllm"]
+    assert actual_version == "0.29.0+cu129"
+    cuda_config = task.cell_config(SMOKE, ROOT, tmp_path, actual_version)
+    assert cuda_config.server.vllm_version == actual_version
+    # Only provenance changes; model, request settings and generated command stay fixed.
+    assert cuda_config.model_dump() == {
+        **config.model_dump(),
+        "server": {**config.server.model_dump(), "vllm_version": actual_version},
+    }
+
+
+@pytest.mark.parametrize("version", [
+    "0.29.0+cu130", "0.29.0+unknown", "0.29.0+cu129.extra", "0.30.0+cu129",
+    "0.29.0.dev1+cu129", "0.29.0.post1+cu129",
+])
+def test_unapproved_builds_cannot_satisfy_configured_release(tmp_path, version):
+    with pytest.raises(ValueError, match="differs"):
+        task.cell_config(SMOKE, ROOT, tmp_path, version)
+
+
 @pytest.mark.parametrize("status,correct,requests", [
     ("completed_with_errors", True, 1), ("completed", True, 0), ("completed", False, 1),
 ])

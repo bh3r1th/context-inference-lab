@@ -22,9 +22,12 @@ a job configuration alone does not verify these.
 ## What is prepared
 
 The image uses the official vLLM **0.29.0-cu129** Linux/amd64 image, pinned to an
-inspected manifest digest. Its serving version remains **0.29.0**, matching the client's
-`structured_outputs.json` API. It does not install the legacy requirements that
-pin vLLM 0.8.5. The base uses **CUDA 12.9.1**, with native host driver libraries by
+inspected manifest digest. Its installed package version is **0.29.0+cu129**, the
+official CUDA 12.9 build of release **0.29.0**, matching the client's
+`structured_outputs.json` API. The launcher accepts this specific build for the
+configured release and records the full installed version in task artifacts.
+Other build suffixes do not satisfy the configured release. It does not install
+the legacy requirements that pin vLLM 0.8.5. The base uses **CUDA 12.9.1**, with native host driver libraries by
 default (`VLLM_ENABLE_CUDA_COMPATIBILITY=0`). The previous CUDA 13 image with forced
 compatibility libraries failed GPU initialization with error 803 on this job.
 Actual driver compatibility still requires the GPU smoke execution. The build
@@ -35,10 +38,11 @@ The pinned upstream image deliberately installs NCCL 2.30.7 for DeepEPv2 while
 PyTorch 2.13.0+cu129's metadata requests 2.29.7 for `nvidia-nccl-cu12`. The override is
 [documented in vLLM's Dockerfile](https://github.com/vllm-project/vllm/blob/v0.29.0/docker/Dockerfile#L854).
 `check_dependencies.py` runs `pip check` and permits only that exact conflict,
-after verifying the installed vLLM/Torch/NCCL versions and the upstream override
+after verifying the exact installed vLLM/Torch/NCCL versions and the upstream override
 file. Additional conflicts, different versions, or missing override evidence
-fail the build. The check prints the acknowledged exception explicitly; it
-does not claim ordinary `pip check` passed. The compatible Cloud Storage SDK
+fail the build, with expected and installed versions included for mismatches.
+The check prints the acknowledged exception and verified package versions
+explicitly; it does not claim ordinary `pip check` passed. The compatible Cloud Storage SDK
 already present in the base is retained instead of unnecessarily downgraded.
 
 The launcher selects one complete experiment cell using `CLOUD_RUN_TASK_INDEX`.

@@ -20,7 +20,9 @@ EXPECTED_CONFLICT = (
 EXPECTED_VERSIONS = {
     "torch": "2.13.0+cu129",
     "nvidia-nccl-cu12": "2.30.7",
-    "vllm": "0.29.0",
+    # The official CUDA 12.9 wheel carries a local build suffix:
+    # https://github.com/vllm-project/vllm/releases/tag/v0.29.0
+    "vllm": "0.29.0+cu129",
 }
 OVERRIDE_PIN = "nvidia-nccl-cu12==2.30.7"
 OVERRIDE_PATH = Path("/etc/uv-overrides.txt")
@@ -32,9 +34,14 @@ class DependencyValidationError(RuntimeError):
 
 def validate_vendor_override(versions: Mapping[str, str] | None,
                              override_text: str | None):
-    if versions is None or any(versions.get(name) != version
-                               for name, version in EXPECTED_VERSIONS.items()):
-        raise DependencyValidationError("Installed versions do not match the documented override")
+    mismatches = [
+        f"{name}: expected {expected!r}, installed {(versions or {}).get(name, '<missing>')!r}"
+        for name, expected in EXPECTED_VERSIONS.items()
+        if (versions or {}).get(name) != expected
+    ]
+    if mismatches:
+        raise DependencyValidationError(
+            "Installed versions do not match the documented override: " + "; ".join(mismatches))
     pins = [line.split("#", 1)[0].strip() for line in (override_text or "").splitlines()]
     nccl_pins = [line for line in pins if line.startswith("nvidia-nccl-cu")]
     if nccl_pins != [OVERRIDE_PIN]:
@@ -84,6 +91,9 @@ def main() -> int:
               "no other dependency conflicts were accepted.")
     else:
         print("Dependency validation: ordinary pip check completed successfully.")
+    if versions is not None:
+        print("Verified installed versions: " + ", ".join(
+            f"{name}={version}" for name, version in versions.items()))
     return 0
 
 

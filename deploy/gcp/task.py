@@ -85,7 +85,10 @@ def cell_config(entry: dict, root: Path, output: Path, version: str) -> Experime
     if strategy not in config.strategies or concurrency not in config.concurrency:
         raise ValueError("Plan selects a strategy/concurrency outside the source configuration")
     server = config.server_for(strategy).model_dump()
-    if server["vllm_version"] != version:
+    # The official CUDA 12.9 build of release 0.29.0 is versioned 0.29.0+cu129.
+    # Accept that specific variant; retain its full version in the task config.
+    if server["vllm_version"] != version and (server["vllm_version"], version) != (
+            "0.29.0", "0.29.0+cu129"):
         raise ValueError(f"Installed vLLM {version} differs from configured {server['vllm_version']}")
     cached = strategy == "prefix_cached_full_context"
     command = server_command(server["launch_command"], model=server["model"],

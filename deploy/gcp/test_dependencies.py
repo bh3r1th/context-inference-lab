@@ -11,7 +11,7 @@ BUILD_DIAGNOSTIC = (
     'torch 2.13.0+cu129 has requirement nvidia-nccl-cu12==2.29.7; '
     'platform_system == "Linux", but you have nvidia-nccl-cu12 2.30.7.\n'
 )
-VERSIONS = {"torch": "2.13.0+cu129", "nvidia-nccl-cu12": "2.30.7", "vllm": "0.29.0"}
+VERSIONS = {"torch": "2.13.0+cu129", "nvidia-nccl-cu12": "2.30.7", "vllm": "0.29.0+cu129"}
 PIN = "nvidia-nccl-cu12==2.30.7\n"
 
 
@@ -57,7 +57,8 @@ def test_other_or_additional_conflicts_are_never_hidden(diagnostic):
 
 @pytest.mark.parametrize("name,version", [
     ("torch", "2.12.0+cu129"), ("nvidia-nccl-cu12", "2.29.7"), ("vllm", "0.30.0"),
-    ("vllm", None),
+    ("vllm", "0.29.0"), ("vllm", "0.29.0+cu130"), ("vllm", "0.29.0+unknown"),
+    ("vllm", "0.29.0.dev1+cu129"), ("vllm", "0.29.0.post1+cu129"), ("vllm", None),
 ])
 def test_changed_or_missing_package_versions_reject_the_exception(name, version):
     versions = dict(VERSIONS)
@@ -65,8 +66,10 @@ def test_changed_or_missing_package_versions_reject_the_exception(name, version)
         del versions[name]
     else:
         versions[name] = version
-    with pytest.raises(check.DependencyValidationError, match="Installed versions"):
+    with pytest.raises(check.DependencyValidationError, match="Installed versions") as failure:
         check.validate_pip_check(1, BUILD_DIAGNOSTIC, "", versions, PIN)
+    assert f"{name}: expected {VERSIONS[name]!r}" in str(failure.value)
+    assert f"installed {version if version is not None else '<missing>'!r}" in str(failure.value)
 
 
 @pytest.mark.parametrize("override", [None, "", "nvidia-nccl-cu12==2.29.7\n",
@@ -102,6 +105,7 @@ def test_entrypoint_reads_actual_proof_and_preserves_original_diagnostic(
     output = capsys.readouterr()
     assert BUILD_DIAGNOSTIC in output.out
     assert "acknowledged the verified upstream" in output.out
+    assert "vllm=0.29.0+cu129" in output.out
     assert "ordinary pip check completed successfully" not in output.out
 
 

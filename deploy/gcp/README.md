@@ -59,7 +59,9 @@ Required APIs: Cloud Run, Artifact Registry, Cloud Build, and Cloud Storage.
 The Cloud Shell identity needs build submission, job update/execution, image
 read, and permission to use the runtime service account. The selected Cloud Build
 service account needs access to its staging source bucket, Artifact Registry
-Writer on the image repository, and Cloud Logging write access. The runtime
+Writer on the image repository, and write access to `gs://context-inference-lab`
+for build logs. Cloud Build uses GCS-only logging, so this build does not require
+the Logs Writer role. The runtime
 service account needs bucket write access; the reported Storage Admin grant
 should cover it, but the launcher verifies access before loading the model.
 
@@ -76,7 +78,10 @@ bash deploy/gcp/build.sh
 ```
 
 This submits a remote Cloud Build and prints an immutable image reference after
-the image has been pushed successfully. Use that exact reference:
+the image has been pushed successfully. Build logs are stored in
+`gs://context-inference-lab` and streamed by `gcloud builds submit`. The derived
+image uses `python3`, the interpreter configured by the upstream runtime image.
+Use that exact image reference:
 
 ```bash
 IMAGE='us-east4-docker.pkg.dev/project-ce0aa110-c8ea-4c1e-80b/context-inference-lab/benchmark@sha256:REPLACE_WITH_BUILD_DIGEST'

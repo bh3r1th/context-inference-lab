@@ -8,8 +8,9 @@ steps:
       - .
 images:
   - ${_IMAGE}
+logsBucket: gs://context-inference-lab
 options:
-  logging: CLOUD_LOGGING_ONLY
+  logging: GCS_ONLY
   machineType: E2_HIGHCPU_8
   diskSizeGb: 100
 timeout: 3600s

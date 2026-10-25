@@ -1,0 +1,8 @@
+[
+  {
+    "id": "smoke-full_context-c1",
+    "config": "configs/smoke.yaml",
+    "strategy": "full_context",
+    "concurrency": 1
+  }
+]

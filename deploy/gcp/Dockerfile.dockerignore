@@ -1,0 +1,11 @@
+.git
+.venv
+results
+**/__pycache__
+**/.pytest_cache
+**/.ruff_cache
+**/*.pyc
+**/.env
+**/.env.*
+**/*credentials*.json
+**/test_*.py

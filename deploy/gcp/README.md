@@ -56,6 +56,16 @@ multi-cell run and is recorded by the per-task config and launch logs.
 The 72K model context limit, model revision, event selections, repetitions,
 output cap, and request seeds are preserved. An L4 memory failure is reported;
 the launcher does not silently shrink the experiment or quantize the model.
+The Cloud Run launch command explicitly uses **0.92 GPU memory utilization**
+instead of the source configs' 0.90, consistently across smoke/pilot cells.
+The observed L4 startup at 0.90 had 3.84 GiB of KV cache available versus
+3.94 GiB needed for 73,728 tokens. Raising the budget by two percentage points
+adds about 450 MiB on the observed 23,034 MiB device. CUDA graph memory profiling
+stays enabled. The full generated launch command is recorded in task artifacts;
+source configs are unchanged. `CONTEXTBENCH_GPU_MEMORY_UTILIZATION` can override
+the launcher default with a finite value strictly between zero and one;
+`deploy.sh` explicitly sets 0.92. Startup and concurrent workload fit still
+require smoke/pilot validation. This does not establish full-experiment capacity.
 Model weights download to `/tmp/huggingface`, whose storage consumes host RAM on
 Cloud Run. The 32 GiB allocation needs validation during model loading.
 

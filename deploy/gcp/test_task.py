@@ -75,6 +75,34 @@ def test_cell_preserves_smoke_workload_and_checks_version(config, tmp_path):
         task.cell_config({**SMOKE, "concurrency": 32}, ROOT, tmp_path, "0.29.0")
 
 
+@pytest.mark.parametrize("original", ["--gpu-memory-utilization 0.90",
+                                       "--gpu-memory-utilization=0.90"])
+def test_l4_budget_replaces_source_budget_without_changing_model_settings(tmp_path, original):
+    source = task.load_config(ROOT / SMOKE["config"])
+    command = source.server.launch_command.replace("--gpu-memory-utilization 0.90", original)
+    args = task.server_command(command, model=source.server.model,
+                               revision=source.server.model_revision, cached=False)
+    assert args.count("--gpu-memory-utilization") == 1
+    assert args[args.index("--gpu-memory-utilization") + 1] == "0.92"
+    assert args[args.index("--max-model-len") + 1] == "72K"
+    assert args[args.index("--revision") + 1] == source.server.model_revision
+    assert "--enforce-eager" not in args
+
+
+def test_budget_override_is_recorded_in_generated_config(monkeypatch, tmp_path):
+    monkeypatch.setenv("CONTEXTBENCH_GPU_MEMORY_UTILIZATION", "0.93")
+    config = task.cell_config(SMOKE, ROOT, tmp_path, "0.29.0+cu129")
+    args = task.shlex.split(config.server.launch_command)
+    assert args[args.index("--gpu-memory-utilization") + 1] == "0.93"
+
+
+@pytest.mark.parametrize("value", ["nan", "inf", "-inf", "0", "1", "-0.1", "1.1", "bad"])
+def test_invalid_memory_budget_fails_before_model_loading(monkeypatch, tmp_path, value):
+    monkeypatch.setenv("CONTEXTBENCH_GPU_MEMORY_UTILIZATION", value)
+    with pytest.raises(ValueError):
+        task.cell_config(SMOKE, ROOT, tmp_path, "0.29.0+cu129")
+
+
 def test_official_cuda_build_preserves_workload_and_records_full_version(config, tmp_path):
     from deploy.gcp.check_dependencies import EXPECTED_VERSIONS
 

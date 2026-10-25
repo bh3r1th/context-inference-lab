@@ -29,6 +29,16 @@ option is enabled for the L4's managed driver. Actual driver compatibility still
 requires the GPU smoke execution. The build uploads an explicit context excluding environment files,
 credentials, Git metadata, virtual environments, and old results.
 
+The pinned upstream image deliberately installs NCCL 2.30.7 for DeepEPv2 while
+PyTorch 2.13.0+cu130's package metadata requests 2.29.7. The upstream override is
+[documented in vLLM's Dockerfile](https://github.com/vllm-project/vllm/blob/v0.29.0/docker/Dockerfile#L854).
+`check_dependencies.py` runs `pip check` and permits only that exact conflict,
+after verifying the installed vLLM/Torch/NCCL versions and the upstream override
+file. Additional conflicts, different versions, or missing override evidence
+fail the build. The check prints the acknowledged exception explicitly; it
+does not claim ordinary `pip check` passed. The compatible Cloud Storage SDK
+already present in the base is retained instead of unnecessarily downgraded.
+
 The launcher selects one complete experiment cell using `CLOUD_RUN_TASK_INDEX`.
 It checks bucket write access, starts one local vLLM server, waits for the exact
 model, executes the existing benchmark runner, checks current-run artifacts, and
@@ -139,7 +149,7 @@ splitting its requests would change the experiment's admission/cache behavior.
 With the repository development environment activated:
 
 ```bash
-python -m pytest -q tests deploy/gcp/test_plan.py deploy/gcp/test_task.py
+python -m pytest -q tests deploy/gcp
 bash -n deploy/gcp/build.sh deploy/gcp/deploy.sh
 ```
 

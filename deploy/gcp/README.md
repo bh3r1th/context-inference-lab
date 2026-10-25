@@ -106,8 +106,10 @@ the Logs Writer role. The runtime
 service account needs bucket write access; the reported Storage Admin grant
 should cover it, but the launcher verifies access before loading the model.
 
-No API key is needed for this public model and task-local server. Network access
-must permit Hugging Face model downloads and its download infrastructure as well
+No API key is needed for this public model and task-local server. Readiness
+and model validation omit the Authorization header when the configured API key
+variable is unset or empty; a configured key is still sent as a Bearer token.
+Network access must permit Hugging Face model downloads and its download infrastructure as well
 as GCS. Existing project network restrictions are not changed by these scripts.
 
 ## Build and execute the smoke task

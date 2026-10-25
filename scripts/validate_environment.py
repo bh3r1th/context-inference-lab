@@ -1,6 +1,7 @@
 """Fail-fast validation for a GPU-backed benchmark run."""
 import argparse
 import json
+import os
 import shutil
 import subprocess
 from pathlib import Path
@@ -46,10 +47,11 @@ def main():
         server = config.server_for(strategy)
         if strategy == "prefix_cached_full_context" and not server.prefix_caching:
             fail(f"{strategy}: endpoint must declare prefix_caching: true")
+        key = os.getenv(server.api_key_env)
+        headers = {"Authorization": f"Bearer {key}"} if key else {}
         try:
             response = httpx.get(server.base_url.rstrip("/") + "/models", timeout=5,
-                                 headers={"Authorization": "Bearer " + __import__("os").environ.get(
-                                     server.api_key_env, "")})
+                                 headers=headers)
             response.raise_for_status()
             models = response.json().get("data", [])
             if server.model not in [item.get("id") for item in models]:

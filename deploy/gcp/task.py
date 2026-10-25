@@ -46,7 +46,10 @@ def read_plan(path: Path, index: int, count: int) -> dict:
     return entries[index]
 
 
-def server_command(command: str, *, model: str, revision: str, cached: bool) -> list[str]:
+def server_command(command: str, *, model: str, revision: str, cached: bool,
+                   gpu_memory_utilization: float = 0.92) -> list[str]:
+    if not math.isfinite(gpu_memory_utilization) or not 0 < gpu_memory_utilization < 1:
+        raise ValueError("GPU memory utilization must be finite and between 0 and 1")
     args = shlex.split(command)
     if args[:3] != ["vllm", "serve", model]:
         raise ValueError("Launch command must start with vllm serve and the configured model")
@@ -58,12 +61,12 @@ def server_command(command: str, *, model: str, revision: str, cached: bool) -> 
     normalized, index = [], 0
     while index < len(args):
         arg = args[index]
-        if arg in {"--host", "--port"}:
+        if arg in {"--host", "--port", "--gpu-memory-utilization"}:
             if index + 1 >= len(args):
                 raise ValueError(f"Missing value for {arg}")
             index += 2
             continue
-        if arg.startswith(("--host=", "--port=")) or arg in {
+        if arg.startswith(("--host=", "--port=", "--gpu-memory-utilization=")) or arg in {
             "--enable-prefix-caching", "--no-enable-prefix-caching"
         }:
             index += 1
@@ -71,6 +74,7 @@ def server_command(command: str, *, model: str, revision: str, cached: bool) -> 
         normalized.append(arg)
         index += 1
     return [*normalized, "--host", "127.0.0.1", "--port", "8000",
+            "--gpu-memory-utilization", str(gpu_memory_utilization),
             "--enable-prefix-caching" if cached else "--no-enable-prefix-caching"]
 
 
@@ -92,7 +96,9 @@ def cell_config(entry: dict, root: Path, output: Path, version: str) -> Experime
         raise ValueError(f"Installed vLLM {version} differs from configured {server['vllm_version']}")
     cached = strategy == "prefix_cached_full_context"
     command = server_command(server["launch_command"], model=server["model"],
-                             revision=server["model_revision"], cached=cached)
+                             revision=server["model_revision"], cached=cached,
+                             gpu_memory_utilization=float(os.environ.get(
+                                 "CONTEXTBENCH_GPU_MEMORY_UTILIZATION", "0.92")))
     server.update(base_url="http://127.0.0.1:8000/v1", metrics_url="http://127.0.0.1:8000/metrics",
                   version_url="http://127.0.0.1:8000/version", prefix_caching=cached,
                   vllm_version=version, launch_command=shlex.join(command))

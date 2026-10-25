@@ -28,7 +28,7 @@ gcloud run jobs update "$job" --project="$project" --region="$region" \
     --gpu=1 --gpu-type=nvidia-l4 --cpu=8 --memory=32Gi \
     --tasks="$tasks" --parallelism=1 --task-timeout=3600s --max-retries=0 \
     --service-account=809334676818-compute@developer.gserviceaccount.com \
-    --update-env-vars="RESULTS_BUCKET=context-inference-lab,RESULTS_PREFIX=cloud-run,TASK_PLAN=/app/deploy/gcp/$stage-plan.json,TASK_DEADLINE_SECONDS=3300,VLLM_ENABLE_CUDA_COMPATIBILITY=$cuda_compatibility"
+    --update-env-vars="RESULTS_BUCKET=context-inference-lab,RESULTS_PREFIX=cloud-run,TASK_PLAN=/app/deploy/gcp/$stage-plan.json,TASK_DEADLINE_SECONDS=3300,VLLM_ENABLE_CUDA_COMPATIBILITY=$cuda_compatibility,CONTEXTBENCH_GPU_MEMORY_UTILIZATION=0.92"
 
 printf '\nJob updated, not executed. Launch with:\n'
 printf 'gcloud run jobs execute %s --project=%s --region=%s\n' "$job" "$project" "$region"

@@ -11,7 +11,9 @@ static documents + event JSON → context strategy → vLLM → JSON decision
 
 The implemented path uses a real OpenAI-compatible streaming HTTP request to vLLM.
 Tests also exercise the entire path against a local HTTP/SSE fixture server. Fixture
-responses prove plumbing, not model performance. No GPU benchmark results are bundled.
+responses prove plumbing, not model performance. A bounded real-GPU pilot, reproducible
+evidence review, and an unpublished blog draft are archived in
+[the pilot study](docs/pilot-study/README.md). The full benchmark matrix remains unrun.
 
 ## Quick start
 
@@ -41,7 +43,8 @@ Regenerate the original smoke fixture or increase its document size:
 python scripts/generate_fixtures.py --paragraphs 80
 ```
 
-Provision a separate Linux GPU environment for vLLM (no cloud deployment is included).
+Provision a separate Linux GPU environment for vLLM. The optional
+[Cloud Run deployment](deploy/gcp/README.md) supports the smoke/pilot workflow.
 Install a specific vLLM release compatible with your CUDA and GPU environment, and record
 that version. The adapter uses `structured_outputs.json`, rather than removed legacy
 `guided_json` fields. Follow the [vLLM installation documentation](https://docs.vllm.ai/en/stable/getting_started/installation/)

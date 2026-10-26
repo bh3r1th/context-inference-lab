@@ -4,7 +4,7 @@ import hashlib
 from dataclasses import asdict
 from time import perf_counter
 
-from contextbench.evaluation.scoring import evaluate
+from contextbench.evaluation.scoring import evaluate, evaluate_context_coverage
 from contextbench.metrics.provenance import finalize_request_metrics, utc_now
 from contextbench.models import ContextStrategy, InferenceBackend, InferenceResult
 
@@ -58,12 +58,7 @@ async def run_batch(backend: InferenceBackend, strategy: ContextStrategy, events
                 result.error = f"{result.error}; {error}" if result.error else error
                 evaluation = {"correct": False, "schema_valid": False, "rule_recall": 0.0,
                               "missed_critical_rules": truth["critical_rules"], "validation_error": error}
-            required_context_sources = set(truth.get("required_source_ids",
-                                                    truth["output"]["applied_rules"]))
-            selected_context_sources = set(context.source_ids) if context else set()
-            evaluation["missing_required_context_sources"] = sorted(
-                required_context_sources - selected_context_sources)
-            evaluation["minimum_safe_context"] = not evaluation["missing_required_context_sources"]
+            evaluation.update(evaluate_context_coverage(context, truth))
             case = truth["case"]
             evaluation["cross_document_reasoning_success"] = (
                 evaluation["correct"] if case == "cross-document" else None)

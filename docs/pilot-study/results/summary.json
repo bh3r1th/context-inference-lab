@@ -1,0 +1,42 @@
+{
+  "case_counts": {
+    "ambiguous-abstain": 18,
+    "buried-exception": 36,
+    "cross-document": 36,
+    "cross-section": 36,
+    "lookup-dependent": 18,
+    "normal": 36
+  },
+  "cells": 18,
+  "context_missing_required_rules": 18,
+  "decision_correct": 63,
+  "decision_correct_citations_wrong": 27,
+  "decision_wrong": 117,
+  "full_benchmark_completed": false,
+  "integrity_status": "PASS",
+  "measured_batch_s": 1463.8249137889998,
+  "measured_requests": 180,
+  "original_coverage_true": 20,
+  "required_context_covered": 162,
+  "retained_failed_attempts": [
+    {
+      "attempt": "context-inference-lab-q2vr4/task-13-pilot-scaling-32k-full_context-c8/attempt-0-43d9362eb9dc425b8acadef85a851246",
+      "cell": "pilot-scaling-32k-full_context-c8",
+      "failed_requests": 3,
+      "reason": "Original 120-second attempt: seven measured completions, three ReadTimeout errors. Preserved; not combined with the rerun.",
+      "status": {
+        "cell": "pilot-scaling-32k-full_context-c8",
+        "elapsed_s": 907.929621218,
+        "error": "TaskFailure: Benchmark did not complete exactly one nonempty cell",
+        "status": "failed"
+      },
+      "successful_requests": 7
+    }
+  ],
+  "review_note": "Integrity PASS is not a full-run feasibility or answer-quality gate.",
+  "schema_valid": 180,
+  "selected_task_s": 13616.033896037,
+  "strict_correct": 36,
+  "study_type": "pilot",
+  "unique_event_ids": 10
+}

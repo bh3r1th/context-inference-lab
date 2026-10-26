@@ -53,10 +53,11 @@ def summary_csv_row(summary: dict) -> dict:
               "failure_rate", "warmup_requests", "warmup_failures", "batch_duration_s",
               "preparation_s", "requests_per_s", "attempts_per_s", "average_input_tokens",
               "average_output_tokens", "correctness", "schema_validity", "quality",
-              "minimum_safe_context", "errors")
+              "minimum_safe_context", "required_context_covered", "errors")
     row = {field: summary.get(field) for field in fields}
     row["quality"] = summary.get("quality", {}).get("correct")
     row["minimum_safe_context"] = summary.get("quality", {}).get("minimum_safe_context")
+    row["required_context_covered"] = summary.get("quality", {}).get("required_context_covered")
     for name in ("ttft_s", "latency_s"):
         for percentile in ("p50", "p95", "p99", "count"):
             row[f"{name}_{percentile}"] = summary["successful_request_metrics"][name][percentile]

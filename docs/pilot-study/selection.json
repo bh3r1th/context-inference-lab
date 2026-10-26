@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "study_type": "pilot",
+  "analysis_date": "2026-10-26",
+  "compatible_client_reference_commit": "27c4bb12153bb82b4e82b498066a92e949083de5",
+  "execution_source_commit": null,
+  "image_digests": null,
+  "provenance_note": "Git metadata and image references were not recorded in the uploaded run artifacts. Client files match the reference commit by content; this is not proof of the full image or execution commit.",
+  "expected_cells": 18,
+  "expected_measured_requests_per_cell": 10,
+  "selected_attempts": [
+    {
+      "cell": "pilot-enterprise-full_context-c1",
+      "attempt": "context-inference-lab-q2vr4/task-0-pilot-enterprise-full_context-c1/attempt-0-f6206382d76240e18d76078c42350f9c",
+      "run_id": "20261025T234026Z-4a10b3524847455180a30523b4152d71"
+    },
+    {
+      "cell": "pilot-enterprise-full_context-c8",
+      "attempt": "context-inference-lab-q2vr4/task-1-pilot-enterprise-full_context-c8/attempt-0-e220277ec4634d7b80e10c3390eb4f4e",
+      "run_id": "20261025T235354Z-fef39af37b59440ab16e5fb41a961892"
+    },
+    {
+      "cell": "pilot-enterprise-prefix_cached_full_context-c1",
+      "attempt": "context-inference-lab-q2vr4/task-2-pilot-enterprise-prefix_cached_full_context-c1/attempt-0-96d5ef93cccb4e9492d8df709f1fc72d",
+      "run_id": "20261026T001114Z-56a8ebda303b4291b48e9383059175b9"
+    },
+    {
+      "cell": "pilot-enterprise-prefix_cached_full_context-c8",
+      "attempt": "context-inference-lab-q2vr4/task-3-pilot-enterprise-prefix_cached_full_context-c8/attempt-0-4dc43829156f47d08f83159823bc8da6",
+      "run_id": "20261026T002303Z-fe530ec0aa3d4c3187a2e60b82b69c6d"
+    },
+    {
+      "cell": "pilot-enterprise-retrieval-c1",
+      "attempt": "context-inference-lab-q2vr4/task-4-pilot-enterprise-retrieval-c1/attempt-0-41fb54727949410ca153e4d046320a23",
+      "run_id": "20261026T003617Z-bb97009f52c341d68c243e5259e8f174"
+    },
+    {
+      "cell": "pilot-enterprise-retrieval-c8",
+      "attempt": "context-inference-lab-q2vr4/task-5-pilot-enterprise-retrieval-c8/attempt-0-9d474b33458646fc95a043637e5fd645",
+      "run_id": "20261026T004855Z-357dc6a2fdfa4644af59c2f950905104"
+    },
+    {
+      "cell": "pilot-enterprise-compiled_context-c1",
+      "attempt": "context-inference-lab-q2vr4/task-6-pilot-enterprise-compiled_context-c1/attempt-0-eec184c6979140bea89cbf498d245123",
+      "run_id": "20261026T010020Z-aadb8a8af8ef4685b01f5f57fecb7338"
+    },
+    {
+      "cell": "pilot-enterprise-compiled_context-c8",
+      "attempt": "context-inference-lab-q2vr4/task-7-pilot-enterprise-compiled_context-c8/attempt-0-4ed949c2e39b4d4cbbad326c3f1c8c5f",
+      "run_id": "20261026T011109Z-39470eb251004eea953c911c64c3dd22"
+    },
+    {
+      "cell": "pilot-scaling-2k-full_context-c1",
+      "attempt": "context-inference-lab-q2vr4/task-8-pilot-scaling-2k-full_context-c1/attempt-0-c56e40c693b04e9faec6861b8272642b",
+      "run_id": "20261026T012251Z-548425af34e44b3091fb2acdf6be1897"
+    },
+    {
+      "cell": "pilot-scaling-2k-full_context-c8",
+      "attempt": "context-inference-lab-q2vr4/task-9-pilot-scaling-2k-full_context-c8/attempt-0-5ead8889dd4846269e0bf55b54eed4d1",
+      "run_id": "20261026T013641Z-5566c83329224beca58f609cd4c92f50"
+    },
+    {
+      "cell": "pilot-scaling-8k-full_context-c1",
+      "attempt": "context-inference-lab-q2vr4/task-10-pilot-scaling-8k-full_context-c1/attempt-0-6dc8b338cfd644c1ba3e42ba59337986",
+      "run_id": "20261026T015102Z-10088583ccd94d3198bf7353bef1e888"
+    },
+    {
+      "cell": "pilot-scaling-8k-full_context-c8",
+      "attempt": "context-inference-lab-q2vr4/task-11-pilot-scaling-8k-full_context-c8/attempt-0-ebb385682f72499da9592a428daeb87e",
+      "run_id": "20261026T020436Z-ffa34f1913fb4288a9df1855124e4258"
+    },
+    {
+      "cell": "pilot-scaling-32k-full_context-c1",
+      "attempt": "context-inference-lab-q2vr4/task-12-pilot-scaling-32k-full_context-c1/attempt-0-f360628450584476ac35309e9acbd1ed",
+      "run_id": "20261026T021822Z-8e7b0d6810b1434996632ed63a50b013"
+    },
+    {
+      "cell": "pilot-scaling-32k-full_context-c8",
+      "attempt": "context-inference-lab-bpjvd/task-0-pilot-scaling-32k-full_context-c8/attempt-0-59d1a93b07f14d0d8dfd840e8bf73962",
+      "run_id": "20261026T120742Z-c6e4cfc259f0459aa62310f6170a550f"
+    },
+    {
+      "cell": "pilot-prefix-cold-prefix_cached_full_context-c1",
+      "attempt": "context-inference-lab-q2vr4/task-14-pilot-prefix-cold-prefix_cached_full_context-c1/attempt-0-43811a4d83df4e98965c7678c05bb88f",
+      "run_id": "20261026T024755Z-b94799aa057d483cbe5bb97d08c7f341"
+    },
+    {
+      "cell": "pilot-prefix-cold-prefix_cached_full_context-c8",
+      "attempt": "context-inference-lab-q2vr4/task-15-pilot-prefix-cold-prefix_cached_full_context-c8/attempt-0-1fe815ca66774cc98ccd369e2b2fb85b",
+      "run_id": "20261026T025923Z-2dce3962be024ceb9d7c39ad209aca7f"
+    },
+    {
+      "cell": "pilot-prefix-warm-prefix_cached_full_context-c1",
+      "attempt": "context-inference-lab-q2vr4/task-16-pilot-prefix-warm-prefix_cached_full_context-c1/attempt-0-152cf1d1145440ba95aeb45077a55957",
+      "run_id": "20261026T031316Z-37415a8faf4e469aaf2c0f33bba9ac3a"
+    },
+    {
+      "cell": "pilot-prefix-warm-prefix_cached_full_context-c8",
+      "attempt": "context-inference-lab-q2vr4/task-17-pilot-prefix-warm-prefix_cached_full_context-c8/attempt-0-d348d6a975604bb29fdcf88dd43b2f84",
+      "run_id": "20261026T032432Z-28949ef57a264f84b07f53032ff81fe2"
+    }
+  ],
+  "retained_failed_attempts": [
+    {
+      "cell": "pilot-scaling-32k-full_context-c8",
+      "attempt": "context-inference-lab-q2vr4/task-13-pilot-scaling-32k-full_context-c8/attempt-0-43d9362eb9dc425b8acadef85a851246",
+      "reason": "Original 120-second attempt: seven measured completions, three ReadTimeout errors. Preserved; not combined with the rerun."
+    }
+  ],
+  "original_archives": [
+    {
+      "filename": "context-inference-lab-bpjvd-artifacts.zip",
+      "bytes": 2328192,
+      "sha256": "aaa516edfcc0286f611df27aa77031def336c900475ccb09f0da01efda735352"
+    },
+    {
+      "filename": "context-inference-lab-q2vr4-artifacts.zip",
+      "bytes": 20592475,
+      "sha256": "362c273054df0ca16db5ae97771f29511f5a9f8b7b91168037fc25c7de3e8915"
+    }
+  ]
+}

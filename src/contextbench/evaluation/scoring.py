@@ -1,6 +1,31 @@
 from pydantic import ValidationError
 
-from contextbench.models import Decision
+from contextbench.models import Context, Decision
+
+
+def evaluate_context_coverage(context: Context | None, expected: dict) -> dict:
+    """Compare rule IDs across strategies; source IDs may name documents or chunks.
+
+    This measures required-rule presence, not answer correctness or minimum context
+    size. Keep minimum_safe_context as a deprecated compatibility alias only.
+    """
+    output = expected.get("output", expected)
+    required = set(expected.get("required_source_ids", output["applied_rules"]))
+    selected = [] if context is None else context.metadata.get("selected_rule_ids")
+    source = "no context" if context is None else "context_metadata.selected_rule_ids"
+    if selected is None and context.metadata.get("source_id_kind") == "rule":
+        selected, source = context.source_ids, "source_ids (explicit rule IDs)"
+    available = isinstance(selected, (list, tuple)) and all(
+        isinstance(rule_id, str) for rule_id in selected)
+    missing = sorted(required - set(selected)) if available else None
+    covered = not missing if available else None
+    return {
+        "required_context_covered": covered,
+        "missing_required_context_sources": missing,
+        "context_coverage_source": source if available else None,
+        "context_coverage_reason": None if available else "rule-ID coverage evidence unavailable",
+        "minimum_safe_context": covered,
+    }
 
 
 def evaluate(text: str, expected: dict, critical_rules: list[str]) -> dict:

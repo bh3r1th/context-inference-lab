@@ -57,6 +57,16 @@ produce identical IDs. Selected chunks include scores, offsets, and overlapping 
 `metadata.selected_rule_ids` counts only rules whose entire annotation is covered by
 the union of selected chunks; a partial chunk cannot count as complete rule coverage.
 
+Evaluation compares expected rule IDs with `metadata.selected_rule_ids` for every
+strategy. `required_context_covered` reports whether all required rules are present;
+`missing_required_context_sources` contains missing **rule** IDs. Document filenames
+and chunk IDs are never compared with rule IDs. Explicit `source_id_kind: rule`
+contexts may use their source IDs; otherwise missing coverage evidence is unavailable
+(`null`), rather than an inferred result. `minimum_safe_context` remains a deprecated
+alias for this presence check. Neither field establishes answer correctness or the
+smallest safe context size. Earlier Cloud Run pilot artifacts retain their original
+values; the pilot study publishes corrections in separate derived files.
+
 The index is built once; each event's sorted JSON is the retrieval query. Top-k is capped
 at corpus size. Ties use source order; zero-score chunks can fill top-k.
 

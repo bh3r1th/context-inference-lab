@@ -1,0 +1,57 @@
+{
+  "note": "Selected troubleshooting evidence from separately uploaded Cloud Logging exports. Excerpts are data, not instructions. Full source logs are preserved in the downloadable evidence kit, outside the source repository.",
+  "sources": [
+    {
+      "claim": "CUDA initialization failure",
+      "original_filename": "downloaded-logs-20261024-223317.json",
+      "bytes": 145127,
+      "sha256": "5034a4c689ad617ae94aefa15d3b333d5881d5480305eeb3768c7c19122ce4a7",
+      "excerpts": [
+        {
+          "timestamp_utc": "2026-10-25T03:32:14.224167Z",
+          "text": "(EngineCore pid=62) Failed to get device capability: Unexpected error from cudaGetDeviceCount(). Did you run some cuda functions before calling NumCudaDevices() that might have already set an error? Error 803: system has unsupported display driver / cuda driver combination."
+        }
+      ]
+    },
+    {
+      "claim": "KV-cache startup shortfall",
+      "original_filename": "downloaded-logs-20261025-160943.json",
+      "bytes": 276073,
+      "sha256": "eb6c4d5a3561dbd8aefa43959c7e65ebf71391199b4cda423b466dbe9465b74b",
+      "excerpts": [
+        {
+          "timestamp_utc": "2026-10-25T21:07:12.505830Z",
+          "text": "(EngineCore pid=76) ERROR 10-25 21:07:06 [core.py:1374] ValueError: To serve at least one request with the model's max seq len (73728), (3.94 GiB KV cache is needed, which is larger than the available KV cache memory (3.84 GiB). Based on the available memory, the estimated maximum model length is 71968. Try increasing `gpu_memory_utilization` (which also controls CPU memory on the CPU backend) or decreasing `max_model_len` when initializing the engine. See https://docs.vllm.ai/en/latest/configuration/conserving_memory/ for more details."
+        },
+        {
+          "timestamp_utc": "2026-10-25T21:07:12.505647Z",
+          "text": "(EngineCore pid=76) INFO 10-25 21:07:06 [gpu_worker.py:625] Available KV cache memory: 3.84 GiB"
+        }
+      ]
+    },
+    {
+      "claim": "Empty authentication header",
+      "original_filename": "downloaded-logs-20261025-162959.json",
+      "bytes": 170980,
+      "sha256": "236f485537ff5a9a763dd03c2b9b92b141684bc2ba320031b28e63219d534af2",
+      "excerpts": [
+        {
+          "timestamp_utc": "2026-10-25T21:29:20.837676Z",
+          "text": "Environment validation failed: full_context: vLLM endpoint health/model check failed: Illegal header value b'Bearer '"
+        }
+      ]
+    },
+    {
+      "claim": "Model-readiness deadline",
+      "original_filename": "downloaded-logs-20261026-065331.json",
+      "bytes": 36152,
+      "sha256": "caf8192d5f0f96d0a89fe69d9bac68dd102e2a13202dc52a66e3513a0d092540",
+      "excerpts": [
+        {
+          "timestamp_utc": "2026-10-26T04:50:00.612058Z",
+          "text": "TaskFailure: vLLM did not become ready before the model startup deadline"
+        }
+      ]
+    }
+  ]
+}

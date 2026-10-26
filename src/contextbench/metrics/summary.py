@@ -20,7 +20,7 @@ def percentiles(values: list[float]) -> dict:
 QUALITY_FIELDS = (
     "correct", "schema_valid", "answer_correct", "required_rule_coverage",
     "abstention_correct", "cross_document_reasoning_success", "buried_exception_success",
-    "minimum_safe_context",
+    "minimum_safe_context", "required_context_covered",
 )
 
 

@@ -46,6 +46,58 @@ def test_plan_requires_exact_task_count_and_unique_ids(tmp_path):
         task.read_plan(path, 0, 2)
 
 
+def test_selector_retries_one_original_pilot_cell_without_remapping_to_first(tmp_path):
+    from deploy.gcp.make_plan import make_plan
+
+    plan = make_plan("pilot")
+    path = tmp_path / "pilot.json"
+    path.write_text(json.dumps(plan))
+    selected = "pilot-scaling-32k-full_context-c8"
+    entry = task.read_plan(path, 0, 1, cell_id=selected)
+    assert entry == plan[13]
+    assert entry["concurrency"] == 8 and entry["scaling_size"] == "32k"
+    with pytest.raises(ValueError, match="count must equal"):
+        task.read_plan(path, 0, 18, cell_id=selected)
+    with pytest.raises(ValueError, match="absent"):
+        task.read_plan(path, 0, 1, cell_id="unknown-cell")
+    assert task.read_plan(path, 13, 18) == plan[13]
+
+
+def test_timeout_override_only_changes_recorded_client_timeout(monkeypatch, tmp_path):
+    import asyncio
+
+    from contextbench.inference.vllm import VLLMBackend
+    from contextbench.models import Context
+
+    original = task.cell_config(SMOKE, ROOT, tmp_path, "0.29.0+cu129")
+    assert original.server.timeout_s == 120
+    monkeypatch.setenv("CONTEXTBENCH_REQUEST_TIMEOUT_SECONDS", "600")
+    retry = task.cell_config(SMOKE, ROOT, tmp_path, "0.29.0+cu129")
+    assert retry.model_dump() == {
+        **original.model_dump(),
+        "server": {**original.server.model_dump(), "timeout_s": 600.0},
+    }
+
+    async def send_request():
+        def handler(request):
+            assert request.extensions["timeout"]["read"] == 600
+            return task.httpx.Response(200, text=(
+                'data: {"choices":[{"delta":{"content":"{}"},"finish_reason":"stop"}]}\n\n'
+                'data: [DONE]\n\n'))
+
+        async with task.httpx.AsyncClient(transport=task.httpx.MockTransport(handler)) as client:
+            return await VLLMBackend(retry.server, client).generate(Context("rules", ()), {}, 42)
+
+    assert asyncio.run(send_request()).error is None
+
+
+@pytest.mark.parametrize("value", ["nan", "inf", "0", "-1", "3301", "bad"])
+def test_invalid_request_timeout_fails_before_model_loading(monkeypatch, tmp_path, value):
+    monkeypatch.setenv("CONTEXTBENCH_REQUEST_TIMEOUT_SECONDS", value)
+    with pytest.raises(ValueError):
+        task.cell_config(SMOKE, ROOT, tmp_path, "0.29.0+cu129")
+
+
 def test_cell_normalizes_cached_server_and_records_actual_command(tmp_path):
     entry = {"id": "cached", "config": "configs/pilot-prefix-cold.yaml",
              "strategy": "prefix_cached_full_context", "concurrency": 8}
@@ -133,6 +185,19 @@ def test_zero_exit_or_empty_outputs_do_not_establish_success(config, status, cor
     artifacts(config, status=status, correct=correct, requests=requests)
     with pytest.raises(task.TaskFailure):
         task.verify_results(config, require_correct=True)
+
+
+def test_failed_cell_reports_status_counts_and_raw_diagnostic_paths(config):
+    artifacts(config, status="completed_with_errors")
+    path = next(Path(config.output_dir).glob("*/summary.json"))
+    summary = json.loads(path.read_text())
+    summary[0].update(successful_requests=0, failed_requests=1, warmup_failures=0)
+    path.write_text(json.dumps(summary))
+    with pytest.raises(task.TaskFailure) as failure:
+        task.verify_results(config, require_correct=False)
+    assert "completed_with_errors" in str(failure.value)
+    assert "successful=0, failed=1, warmup_failures=0" in str(failure.value)
+    assert "requests.jsonl" in str(failure.value)
 
 
 def test_completed_nonempty_correct_smoke_is_accepted(config):

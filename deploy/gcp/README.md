@@ -177,6 +177,44 @@ fits this GPU and how many full-run tasks are needed. A full cell that cannot
 finish within the remaining task budget needs a different execution platform;
 splitting its requests would change the experiment's admission/cache behavior.
 
+## Rerun one pilot cell after request timeouts
+
+The 32K scaling cell at client concurrency eight produced three `ReadTimeout`
+errors while waiting for streamed content with the source config's 120-second
+read timeout. Seven measured requests completed; only one passed the strict
+answer-and-citation check. Extending the timeout addresses transport failures;
+quality remains an experiment result. A completed pilot task means its requests
+completed without transport/runtime errors; it does not assert perfect accuracy.
+
+Build an image containing the retry support, then use its new immutable reference:
+
+```bash
+CONTEXTBENCH_REQUEST_TIMEOUT_SECONDS=600 bash deploy/gcp/deploy.sh "$IMAGE" pilot \
+  pilot-scaling-32k-full_context-c8
+gcloud run jobs execute context-inference-lab \
+  --project=project-ce0aa110-c8ea-4c1e-80b --region=us-east4
+```
+
+This sets one task and `TASK_CELL_ID=pilot-scaling-32k-full_context-c8`, selecting
+that exact entry from the existing pilot plan. It reruns the complete cell with
+its original workload, seed, concurrency eight, warmup and model settings.
+Unknown IDs or a task count inconsistent with the selected plan fail before GPU
+initialization. Changing only Cloud Run's task count to one without the selector
+does not select the failed cell.
+
+The launcher records the effective timeout in `config.yaml` and run metadata.
+The 600-second setting is the HTTP client's read/inactivity timeout, not a total
+request deadline. The overall task deadline and Cloud Run's 60-minute limit
+remain enforced. Keep the original failed attempt, and identify the new
+execution as a rerun under a changed timeout; it must not silently replace the
+original observation. Other 17 task results remain in their original execution.
+
+For Console deployment after rebuilding, keep `TASK_PLAN` pointed at
+`/app/deploy/gcp/pilot-plan.json`, set `TASK_CELL_ID` to the exact cell ID above,
+set `CONTEXTBENCH_REQUEST_TIMEOUT_SECONDS=600`, and set one task, parallelism one,
+and zero retries. Normal `deploy.sh IMAGE smoke` or `deploy.sh IMAGE pilot`
+clears the selector and restores the standard 120-second timeout.
+
 ## Local verification
 
 With the repository development environment activated:

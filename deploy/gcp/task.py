@@ -31,18 +31,23 @@ class TaskFailure(RuntimeError):
     pass
 
 
-def read_plan(path: Path, index: int, count: int) -> dict:
+def read_plan(path: Path, index: int, count: int, *, cell_id: str | None = None) -> dict:
     entries = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(entries, list) or not entries:
         raise ValueError("TASK_PLAN must contain a nonempty JSON array")
-    if count != len(entries) or not 0 <= index < count:
-        raise ValueError("Cloud Run task count must equal plan length; index must be in range")
     ids = [entry.get("id") for entry in entries if isinstance(entry, dict)]
     if len(ids) != len(entries) or any(
         not isinstance(name, str) or not re.fullmatch(r"[A-Za-z0-9_.-]+", name)
         for name in ids
     ) or len(set(ids)) != len(ids):
         raise ValueError("Plan entries need unique, safe string IDs")
+    if cell_id is not None:
+        entries = [entry for entry in entries if entry["id"] == cell_id]
+        if not entries:
+            raise ValueError(f"TASK_CELL_ID is absent from the task plan: {cell_id}")
+    if count != len(entries) or not 0 <= index < count:
+        raise ValueError("Cloud Run task count must equal selected plan length; "
+                         "index must be in range")
     return entries[index]
 
 
@@ -101,6 +106,8 @@ def cell_config(entry: dict, root: Path, output: Path, version: str) -> Experime
                                  "CONTEXTBENCH_GPU_MEMORY_UTILIZATION", "0.92")))
     server.update(base_url="http://127.0.0.1:8000/v1", metrics_url="http://127.0.0.1:8000/metrics",
                   version_url="http://127.0.0.1:8000/version", prefix_caching=cached,
+                  timeout_s=positive_seconds("CONTEXTBENCH_REQUEST_TIMEOUT_SECONDS",
+                                             server["timeout_s"]),
                   vllm_version=version, launch_command=shlex.join(command))
     values = config.model_dump()
     values.update(server=server, strategy_servers={}, strategies=[strategy],
@@ -246,11 +253,17 @@ def verify_results(config: ExperimentConfig, *, require_correct: bool):
     events = json.loads((Path(config.dataset) / "events.json").read_text())
     count = sum(config.event_ids is None or event["event_id"] in config.event_ids
                 for event in events) * config.repetitions
-    if count <= 0 or metadata.get("status") != "completed" or len(summaries) != 1:
+    if count <= 0 or len(summaries) != 1:
         raise TaskFailure("Benchmark did not complete exactly one nonempty cell")
     summary = summaries[0]
-    if summary.get("status") != "completed" or summary.get("requests") != count \
-            or summary.get("successful_requests") != count:
+    if metadata.get("status") != "completed" or summary.get("status") != "completed":
+        raise TaskFailure(
+            f"Benchmark status {metadata.get('status')!r}; cell status "
+            f"{summary.get('status')!r}; successful={summary.get('successful_requests')}, "
+            f"failed={summary.get('failed_requests')}, "
+            f"warmup_failures={summary.get('warmup_failures')}. "
+            "See requests.jsonl, warmup.jsonl and errors.jsonl for details")
+    if summary.get("requests") != count or summary.get("successful_requests") != count:
         raise TaskFailure("Benchmark has failures, missing requests, or incomplete summary")
     records = [json.loads(line) for line in
                (root / f"{config.strategies[0]}-c{config.concurrency[0]}" / "requests.jsonl")
@@ -373,7 +386,7 @@ def main() -> int:
         index = int(os.environ.get("CLOUD_RUN_TASK_INDEX", "0"))
         count = int(os.environ.get("CLOUD_RUN_TASK_COUNT", "1"))
         entry = read_plan(Path(os.environ.get("TASK_PLAN", "/app/deploy/gcp/smoke-plan.json")),
-                          index, count)
+                          index, count, cell_id=os.environ.get("TASK_CELL_ID") or None)
         execution = os.environ.get("CLOUD_RUN_EXECUTION", "local")
         attempt = os.environ.get("CLOUD_RUN_TASK_ATTEMPT", "0")
         for value in (execution, attempt):
